@@ -33,7 +33,7 @@ DeFi-Endogenous-Fragility/
 │       ├── spot/                    # CCData spot (BTC, ETH, XRP, DOGE)
 │       └── archive/                 # Legacy notebooks (not in pipeline)
 │
-├── data/                            # Not in repo — created by pipeline
+├── data/                            # Not in repo, created by pipeline
 │   ├── raw/                         # ↳ Immutable API extractions (download notebooks)
 │   │   ├── cex/bybit/              #    klines, funding, OI + manifests + QA
 │   │   ├── cex/binance/            #    klines, funding
@@ -93,7 +93,7 @@ A complete data archive (all parquet and CSV files needed to run the analysis no
 01_calendar → 02_diagnostics → 03_core_panel → 04_defi_merge → 07_quantile_lp → 08_robustness → 05_figures
 ```
 
-Each notebook reads from files produced by the previous ones. All paths are managed centrally by `config.py` — no hardcoded paths in any notebook.
+Each notebook reads from files produced by the previous ones. All paths are managed centrally by `config.py`, no hardcoded paths in any notebook.
 
 ---
 
@@ -101,14 +101,14 @@ Each notebook reads from files produced by the previous ones. All paths are mana
 
 | Source | Variables | Frequency | Window |
 |--------|-----------|-----------|--------|
-| Bybit API | ETH perp: OHLCV, Open Interest, Funding Rate | 1h | 2021-03-15 — 2025-12-01 |
-| Binance API | ETH futures: OHLCV, Funding Rate | 1h | 2021-03-15 — 2025-12-01 |
-| CCData (CryptoCompare) | BTC, ETH, XRP, DOGE spot prices (CCCAGG) | 1h | 2021-03-15 — 2025-12-01 |
-| Dune Analytics | DeFi liquidations (Aave, Compound, Maker, Spark, Morpho) | 1h | 2021-03-15 — 2025-12-01 |
+| Bybit API | ETH perp: OHLCV, Open Interest, Funding Rate | 1h | 2021-03-15 - 2025-12-01 |
+| Binance API | ETH futures: OHLCV, Funding Rate | 1h | 2021-03-15 - 2025-12-01 |
+| CCData (CryptoCompare) | BTC, ETH, XRP, DOGE spot prices (CCCAGG) | 1h | 2021-03-15 - 2025-12-01 |
+| Dune Analytics | DeFi liquidations (Aave, Compound, Maker, Spark, Morpho) | 1h | 2021-03-15 - 2025-12-01 |
 
 ### DeFi liquidation scope
 
-The DeFi liquidation variable measures forced deleveraging on ETH-collateralized lending positions across all EVM chains covered by the Dune spellbook (Ethereum, Arbitrum, Optimism, Base, Polygon, and others). The primary variable `total_debt_repaid_usd` captures the aggregate USD value of debt repaid through forced liquidation per hour — a direct measure of the mechanical reduction in outstanding leverage.
+The DeFi liquidation variable measures forced deleveraging on ETH-collateralized lending positions across all EVM chains covered by the Dune spellbook (Ethereum, Arbitrum, Optimism, Base, Polygon, and others). The primary variable `total_debt_repaid_usd` captures the aggregate USD value of debt repaid through forced liquidation per hour, a direct measure of the mechanical reduction in outstanding leverage.
 
 **Collateral filter:** ETH and liquid staking derivatives only (WETH, stETH, wstETH, rETH, cbETH, sfrxETH, ETHx).
 
@@ -155,7 +155,7 @@ The econometric framework combines two established tools in a way that, to our k
 
 **Local projections** (Jordà, 2005) estimate impulse response functions without specifying a VAR system, providing a flexible and robust way to trace the dynamic response of returns to a liquidation shock across horizons h = 0 to 24 hours.
 
-The combined **Quantile Local Projection** estimates β(τ, h) — the response of quantile τ of the cumulative return distribution at horizon h to a one-unit increase in the (lagged, log-transformed) liquidation shock, controlling for BTC returns, funding rate, and basis spread.
+The combined **Quantile Local Projection** estimates β(τ, h), the response of quantile τ of the cumulative return distribution at horizon h to a one-unit increase in the (lagged, log-transformed) liquidation shock, controlling for BTC returns, funding rate, and basis spread.
 
 The liquidation shock is orthogonalized with respect to BTC returns in the cross-asset placebo test to isolate the DeFi-specific component (R² of log_liq on BTC returns = 0.077, meaning 92.3% of liquidation variation is DeFi-specific).
 
