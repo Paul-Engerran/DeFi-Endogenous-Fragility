@@ -165,4 +165,4 @@ This project is academic research. Code is provided for replication purposes.
 
 ## Contact
 
-[Your name and institutional affiliation]
+Paul Engerran - paul.engerran@gmail.com
