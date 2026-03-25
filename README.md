@@ -15,33 +15,48 @@ This repository contains the data pipeline, econometric analysis, and replicatio
 ## Repository Structure
 
 ```
-Research_paper_leverage/
+DeFi-Endogenous-Fragility/
 ├── config.py                        # Central configuration (paths, parameters, windows)
 ├── requirements.txt                 # Python dependencies
+├── README.md
 │
 ├── notebooks/
-│   ├── 01_calendar.ipynb            # Master hourly calendar (temporal reference grid)
+│   ├── 01_calendar.ipynb            # Master hourly calendar
 │   ├── 02_diagnostics.ipynb         # Cross-venue spread analysis (Bybit vs Binance)
-│   ├── 03_core_panel.ipynb          # Pre-DeFi econometric panel (CEX + spot)
+│   ├── 03_core_panel.ipynb          # Pre-DeFi econometric panel
 │   ├── 04_defi_merge.ipynb          # Merge DeFi liquidations → final panel
 │   ├── 05_figures.ipynb             # All figures for the paper
 │   ├── 07_quantile_lp.ipynb         # Main specification: Quantile Local Projections
 │   ├── 08_robustness.ipynb          # Placebo, bootstrap, sensitivity tests
-│   └── download_notebook/           # Data extraction scripts
-│       ├── Perp/                    # Bybit (klines, funding, OI) + Binance futures
-│       ├── spot/                    # CCData (BTC, ETH, XRP, DOGE)
+│   └── download_notebook/
+│       ├── Perp/                    # Bybit klines, funding, OI + Binance futures
+│       ├── spot/                    # CCData spot (BTC, ETH, XRP, DOGE)
 │       └── archive/                 # Legacy notebooks (not in pipeline)
 │
-├── data/
-│   ├── raw/                         # Immutable raw extractions with manifests & QA
-│   ├── normalized/                  # Cleaned hourly parquet files
-│   ├── analysis/                    # Intermediate outputs (calendar, diagnostics, QA)
-│   └── econ/                        # Final econometric datasets and results
+├── data/                            # Not in repo — created by pipeline
+│   ├── raw/                         # ↳ Immutable API extractions (download notebooks)
+│   │   ├── cex/bybit/              #    klines, funding, OI + manifests + QA
+│   │   ├── cex/binance/            #    klines, funding
+│   │   ├── benchmarks/coinbase/    #    candles + repair audit
+│   │   └── defi/                   #    defi_liquidations_1h_clean.csv (Dune)
+│   ├── normalized/                  # ↳ Cleaned hourly parquet (download notebooks)
+│   │   ├── cex/bybit/             #    klines_1h, funding_1h, open_interest_1h
+│   │   ├── cex/binance/           #    binance_futures_ethusdt_1h_normalized
+│   │   ├── spot/                  #    btc, eth, xrp, doge (ccdata_1h)
+│   │   └── defi/                  #    liquidations_1h (notebook 04)
+│   ├── analysis/                    # ↳ Intermediate outputs (notebooks 01-02)
+│   │   ├── windows/               #    master_calendar, window_metadata
+│   │   ├── datasets/              #    cex_diagnostics
+│   │   └── reports/               #    QA JSON files
+│   └── econ/                        # ↳ Final datasets & results (notebooks 03-08)
+│       ├── econ_core_full_1h.parquet
+│       ├── quantile_lp_results.parquet
+│       └── robustness*.csv
 │
 ├── paper/
-│   └── figures/                     # PDF figures for LaTeX
+│   └── figures/                     # PDF figures for LaTeX (in repo)
 │
-└── dune_queries/                    # Versioned SQL for DeFi data extraction
+└── dune_queries/                    # SQL for DeFi data extraction
 ```
 
 ---
