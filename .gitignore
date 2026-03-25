@@ -1,0 +1,45 @@
+# ── Data files (too large for git, provide download instructions) ──
+data/raw/
+data/normalized/
+data/analysis/
+data/econ/
+*.parquet
+*.csv
+
+# ── Keep these data documentation files ──
+!data/DATA_STATUS.md
+
+# ── Python ──
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# ── macOS ──
+.DS_Store
+._*
+
+# ── iCloud ──
+*.icloud
+
+# ── IDE ──
+.vscode/
+.idea/
+
+# ── API keys (NEVER commit) ──
+**/api_key*
+**/secrets*
+**/.env
+
+# ── Jupyter ──
+.ipynb_checkpoints/
+
+# ── Paper outputs (regenerable from notebooks) ──
+paper/figures/*.png
+
+# ── Keep PDF figures for the paper ──
+!paper/figures/*.pdf
+
+# ── Migration script (not needed after setup) ──
+migrate.sh
+.claude/
