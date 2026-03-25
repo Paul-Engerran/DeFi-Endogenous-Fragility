@@ -159,6 +159,11 @@ The liquidation shock is orthogonalized with respect to BTC returns in the cross
 
 ---
 
+## AI Disclosure
+AI tools (Claude, Anthropic) were used for code development assistance and methodology discussion. All research decisions and interpretations are the author's own.
+
+---
+
 ## License
 
 This project is academic research. Code is provided for replication purposes.
