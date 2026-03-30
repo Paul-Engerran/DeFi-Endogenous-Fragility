@@ -42,4 +42,3 @@ paper/figures/*.png
 
 # ── Migration script (not needed after setup) ──
 migrate.sh
-.claude/
