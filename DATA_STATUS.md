@@ -175,7 +175,7 @@ All paths resolve automatically via `config.py`. No manual path editing is requi
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `date` | datetime64[UTC] | Bucket start timestamp. Convention: `[start, end_excl)` — timestamp labels the beginning of the hour. |
+| `date` | datetime64[UTC] | Bucket start timestamp. Convention: `[start, end_excl)`, timestamp labels the beginning of the hour. |
 
 ### 4.2 Prices and returns
 
@@ -294,8 +294,8 @@ Quantile regression at τ = 0.01 with `max_iter = 10,000` (conquer package) prod
 
 - **Bybit**: Bybit Exchange. *ETH/USDT Perpetual: OHLCV, Open Interest, Funding Rate.* 1-hour frequency. Accessed March 2026 via public REST API (`https://api.bybit.com`).
 - **Binance**: Binance Exchange. *ETH/USDT Futures: OHLCV.* 1-hour frequency. Accessed March 2026 via public REST API (`https://fapi.binance.com`).
-- **CCData**: CCData (CryptoCompare). *BTC, ETH, XRP, DOGE — CCCAGG Hourly OHLCV.* Accessed March 2026 via CCData API (`https://data-api.ccdata.io`).
-- **Dune Analytics**: Dune Analytics / Spellbook contributors. *DeFi Liquidations — ETH-Collateralized Positions, EVM Chains.* Query ID 6912877, account `paul_engerran`. Accessed March 2026 via `https://dune.com`.
+- **CCData**: CCData (CryptoCompare). *BTC, ETH, XRP, DOGE - CCCAGG Hourly OHLCV.* Accessed March 2026 via CCData API (`https://data-api.ccdata.io`).
+- **Dune Analytics**: Dune Analytics / Spellbook contributors. *DeFi Liquidations - ETH-Collateralized Positions, EVM Chains.* Query ID 6912877, account `paul_engerran`. Accessed March 2026 via `https://dune.com`.
 
 ### Code license
 Code is provided for academic replication purposes. See `LICENSE` in the repository root.
