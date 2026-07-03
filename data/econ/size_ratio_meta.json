@@ -1,0 +1,56 @@
+{
+  "purpose": "Size-ratio evidence backing A1/A6: DeFi ETH liquidation flow is <<1% of ETH market turnover.",
+  "numerator": {
+    "source": "OUR DATA: econ_core_full_1h.parquet[liq_usd_total]",
+    "column": "liq_usd_total",
+    "note": "OUR measured data, hard fact (not an estimate).",
+    "total_usd": 2521318539.5780234,
+    "mean_daily_usd": 1464180.3365726036,
+    "median_daily_usd": 9287.392600213425,
+    "max_day_usd": 307163535.8799951,
+    "max_day_date": "2024-08-05",
+    "worst_7d_usd": 335902213.65025747,
+    "worst_7d_end_date": "2024-08-07",
+    "pct_nonzero_hours": 26.558265582655828,
+    "n_hours": 41328,
+    "n_days": 1722,
+    "n_nonzero_days": 1573,
+    "date_min": "2021-03-15 00:00:00+00:00",
+    "date_max": "2025-11-30 23:00:00+00:00",
+    "span_days": 1721.9583333333333
+  },
+  "denominator": {
+    "WARNING": "INDUSTRY / CEX-REPORTED ESTIMATES, partly wash-trade-inflated (Gan et al. 2022, ACM AFT), NOT peer-reviewed. Order-of-magnitude bounds only. The numerator<<denominator inequality (3-4 orders of magnitude) is robust to any plausible re-scaling, including deflating for wash trading.",
+    "sources": "Industry and practitioner estimates (CEX-perp cascade magnitudes; ETH spot/perp turnover); order-of-magnitude bounds only.",
+    "assumptions": {
+      "spot_range_usd_per_yr": [
+        3000000000000.0,
+        6000000000000.0
+      ],
+      "spot_midpoint_usd_per_yr": 4500000000000.0,
+      "perp_basis_PRIMARY": "OI-weighted: top-10 perp $58.5T 2024 x ETH OI-share 21% = $12.285T/yr (implied perp:spot ~2.7x)",
+      "perp_multiple_of_spot_ALT": 7.0,
+      "days_per_year": 365.0,
+      "denominators_are_total_eth_market_spot_plus_perp": true,
+      "note": "PRIMARY is the OI-weighted (smaller) denominator, the conservative choice that maximises the DeFi share; the 7x-spot convention is retained as the ALT cross-check row."
+    },
+    "spot_yr": 4500000000000.0,
+    "perp_yr_primary": 12285000000000.0,
+    "spotperp_yr_primary": 16785000000000.0,
+    "spotperp_day_primary": 45986301369.863014,
+    "perp_yr_alt": 31500000000000.0,
+    "spotperp_yr_alt": 36000000000000.0,
+    "spotperp_day_alt": 98630136986.30138,
+    "cascade_black_thursday": 1400000000.0,
+    "cascade_may_2021": 8600000000.0,
+    "cascade_oct_2025": 19000000000.0
+  },
+  "run": {
+    "parquet": "data/econ/econ_core_full_1h.parquet",
+    "run_timestamp_utc": "2026-07-02T18:41:54.636762+00:00",
+    "python_version": "3.12.3",
+    "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39",
+    "pandas": "2.2.2",
+    "numpy": "1.26.4"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "tau": 0.01,
+  "lhs": "cumret_h{h}  (overlapping cumulative ETH returns)",
+  "null_mode": "innov_shuffle",
+  "null_scheme": "innovation_shuffle_of_returns",
+  "null_description": "Innovation-shuffle null: make the shock carry NO info about returns by RESAMPLING THE LHS. Split ret_eth_perp into a conditional mean m_t = OLS(ret ~ const+shock+controls) and innovations e = ret-m_t; per seed rebuild ret_null = m0 + permutation(e) (m0 = constant-only mean, i.e. the shock's mean effect is DROPPED) and re-materialise every cumret_h{h} via rolling(h+1).sum().shift(-h). shock, shock_x_oi_high, oi_high and controls stay REAL. COARSER null: also destroys the return's own serial dependence, isolating the overlapping-cumulative geometry on reshuffled real-magnitude innovations (artifact ratio ~72% @ h=12).",
+  "null_preservation_diagnostics": {
+    "mode": "innov_shuffle",
+    "shock": "UNTOUCHED (real column)",
+    "lhs_marginal": "magnitudes preserved (innovations permuted, not redrawn)",
+    "lhs_moments_real": {
+      "std": 0.8116549977643404,
+      "skew": -0.6281731947274076,
+      "kurt": 17.582558768885136
+    },
+    "lhs_moments_null_first_draw": {
+      "std": 0.4343352152775562,
+      "skew": 0.30509195237139414,
+      "kurt": 20.386522947758788
+    },
+    "absret_acf_real": {
+      "lag1": 0.26944392644360704,
+      "lag6": 0.1984594401351165,
+      "lag24": 0.18796575915118635
+    },
+    "absret_acf_null_first_draw": {
+      "lag1": 0.00024135256195059794,
+      "lag6": -0.0030393261363139586,
+      "lag24": -0.013929813387512372
+    },
+    "destroys": "the return's OWN serial dependence (vol clustering) AND the shock<->return link \u2014 the coarser null"
+  },
+  "n_jobs": -1,
+  "estimator": "run_quantile_lp._fit_one (baseline REGRESSORS/CONTROLS/QR_FIT_KWARGS)",
+  "regressors": [
+    "shock",
+    "shock_x_oi_high",
+    "oi_high",
+    "ret_btc_spot",
+    "vol_eth_7d",
+    "funding_rate",
+    "basis_bps"
+  ],
+  "controls": [
+    "ret_btc_spot",
+    "vol_eth_7d",
+    "funding_rate",
+    "basis_bps"
+  ],
+  "qr_fit_kwargs": {
+    "vcov": "robust",
+    "kernel": "epa",
+    "bandwidth": "hsheather"
+  },
+  "horizons": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    8,
+    12,
+    18,
+    24
+  ],
+  "n_seeds": 500,
+  "max_iter": 20000,
+  "base_seed": 20260607,
+  "shift_block_bound": 24,
+  "offsets": null,
+  "innov_mean_fit": {
+    "ret_const_mean_m0": 0.0005194348696987027,
+    "n_mask": 40582
+  },
+  "n_rows": 40582,
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "run_timestamp_utc": "2026-07-02T19:15:00.663223+00:00",
+  "python_version": "3.12.3",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

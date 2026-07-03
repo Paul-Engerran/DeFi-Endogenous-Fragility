@@ -1,0 +1,94 @@
+{
+  "script": "scripts/aux/run_maker_bound.py",
+  "purpose": "MakerDAO coverage-gap sensitivity of the headline beta_shock(tau=0.01,h) AND the interaction beta_shock_x_oi_high, by ACTUAL re-fit of the LOCKED QLP on the inflated panel (read-only rqlp._fit_one reuse). Replaces the anti-conservative algebraic lambda/(1+lambda) bound.",
+  "method": {
+    "estimator": "rqlp._fit_one(tau=0.01, h, cumret_h{h}, df_inflated, rqlp.REGRESSORS, rqlp.CONTROLS, max_iter)",
+    "inflation": "shock* = ln(1+(1+m)L_{t-1}); shock_x_oi_high* = shock* * oi_high; only these two regressor columns are rebuilt \u2014 spec unchanged.",
+    "displacement": "dbeta = beta*_shock(0.01,h) - beta_shock(0.01,h); dbeta_interaction likewise; rel = |dbeta|/|beta|.",
+    "baseline": "m=0 anchor re-fit on the OBSERVED panel under the SAME kernel settings/max_iter (like-for-like difference).",
+    "allocations": {
+      "prop_active": "inflate every active hour by (1+m) [old asserted worst case; empirically the MILDEST].",
+      "stress_adj0": "missing mass onto currently-zero stress-adjacent hours (equal split); creates tail support.",
+      "prop_oi": "leverage-weighted infill over the stress set (active OR stress-adjacent), prop. to lagged OI."
+    },
+    "worst_case": "SUP over (allocation, h, {shock, interaction}) of |dbeta/beta|; allocation is swept, not asserted."
+  },
+  "assumptions": [
+    "Maker ETH-vault (clip/flip, ETH-A/B/C ilks) liquidations are the dominant missing mass; DUNE_EXTRACTION_BRIEF.md \u00a7B collateral filter + \u00a7E note 4 ('lower bound on true DeFi liquidation activity').",
+    "m = M_total/L_total is the missing-Maker share of total ETH-collateral debt repaid. Defensible m<=0.25 (Maker a minority of in-sample ETH-collateral lending liquidations); m=0.50 is a punitive fence.",
+    "The missing mass is conserved across allocations; only its placement differs. Deep-zero non-stress hours are never assigned Maker volume (an incoherent 'liquidation on a calm hour'); prop_oi/stress_adj0 keep mass on the stress set.",
+    "NO algebraic slope bound is claimed: an OLS-analog rescaling identity (lambda/(1+lambda)) does NOT bound a tau=0.01 QR slope and was anti-conservative; the deliverable is the ACTUAL re-fit displacement."
+  ],
+  "m_grid": [
+    0.1,
+    0.25,
+    0.5
+  ],
+  "m_defensible": 0.25,
+  "allocations": [
+    "prop_active",
+    "stress_adj0",
+    "prop_oi"
+  ],
+  "tau_headline": 0.01,
+  "max_iter": 20000,
+  "rel_bound_threshold": 0.1,
+  "sup_rel_dbeta_shock_by_m": {
+    "0.1": 0.5806355784747611,
+    "0.25": 0.6484525064237077,
+    "0.5": 0.6767250399287575
+  },
+  "sup_rel_dbeta_interaction_by_m": {
+    "0.1": 1.8687010169974068,
+    "0.25": 1.9117683978095887,
+    "0.5": 1.924085287994429
+  },
+  "sup_rel_dbeta_combined_by_m": {
+    "0.1": 1.8687010169974068,
+    "0.25": 1.9117683978095887,
+    "0.5": 1.924085287994429
+  },
+  "sup_combined_at_m_defensible": 1.9117683978095887,
+  "sup_combined_max_over_grid": 1.924085287994429,
+  "argsup_at_m_defensible": {
+    "shock": {
+      "allocation": "prop_oi",
+      "h": 12,
+      "value": 0.6484525064237077
+    },
+    "interaction": {
+      "allocation": "prop_oi",
+      "h": 12,
+      "value": 1.9117683978095887
+    }
+  },
+  "verdict": "NON-CONFIRMATORY: at m=0.25, MAX over (allocation,h,{shock,interaction}) |dbeta/beta| = 1.9118 >= 0.1 \u2014 the Maker coverage gap MATERIALLY moves the headline under a credible allocation. Worst shock: {'allocation': 'prop_oi', 'h': 12, 'value': 0.6484525064237077}; worst interaction: {'allocation': 'prop_oi', 'h': 12, 'value': 1.9117683978095887}. REPORT as a live \u00a72 data-coverage qualification (the prop_active allocation is NOT worst case).",
+  "confirmatory": false,
+  "nondegeneracy_guard": {
+    "note": "Validates the RIGHT property. Risk is a no-op inflation or a no-op re-fit (NOT g==0, which guarded the wrong object). Asserts: (1) shock reconstruction exact; (2) every m>0 moves the regressor on active hours; (3) the re-fit displaces a headline coefficient. No algebraic bound remains to 'dominate'.",
+    "diag": {
+      "shock_recon_max_abs_err": 3.552713678800501e-15,
+      "per_m": {
+        "0.1": {
+          "shock_max_move": 0.09531017931984564,
+          "refit_displaces_headline": true
+        },
+        "0.25": {
+          "shock_max_move": 0.22314355024835208,
+          "refit_displaces_headline": true
+        },
+        "0.5": {
+          "shock_max_move": 0.4054651063317323,
+          "refit_displaces_headline": true
+        }
+      }
+    }
+  },
+  "sigma_cancellation_self_check": "The displacement is now a genuine QLP RE-FIT (kernel rqlp._fit_one), not an algebraic identity, so there is no transformed-DGP null pair that could cancel. The prior trap \u2014 reporting an OLS-analog lambda/(1+lambda) as a bound on the QR slope \u2014 is REMOVED; that formula was anti-conservative (re-fit displacement exceeds it). The only degeneracy risk (no-op inflation / no-op re-fit) is guarded numerically (nondegeneracy_guard).",
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "n_rows_est": 40582,
+  "n_active_hours": 10952,
+  "run_timestamp_utc": "2026-06-18T00:42:51.368787+00:00",
+  "python_version": "3.9.6",
+  "platform": "macOS-14.8.7-x86_64-i386-64bit"
+}

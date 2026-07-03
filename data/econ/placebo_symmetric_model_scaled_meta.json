@@ -1,0 +1,207 @@
+{
+  "script": "scripts/aux/run_placebo_symmetric.py",
+  "purpose": "Carriero-style symmetric-density placebo (backs A3)",
+  "n_sim": 500,
+  "dgp": {
+    "mean": {
+      "mean_shock_coef": 0.00013949947324322102,
+      "n_mask": 40582,
+      "var_resid": 0.18864707923020113,
+      "resid_mean": 1.575793362042507e-18,
+      "real_resid_excess_kurtosis": 20.383863420123895,
+      "real_resid_skew": 0.3050806753858503
+    },
+    "dgp": "model_scaled",
+    "vol_specs": {
+      "rolling": {
+        "logvar_shock_coef": 0.06083807475743655,
+        "vol_window": 168
+      },
+      "garch": {
+        "garch_omega": 0.0025322993798480653,
+        "garch_alpha": 0.11698499273317559,
+        "garch_beta": 0.8830150072668245,
+        "garch_persistence": 1.0
+      }
+    },
+    "gaps": {
+      "rolling": {
+        "0": {
+          "gap_real": 0.013539574138174526,
+          "gap_placebo_mean": -0.0010838756232796722,
+          "gap_placebo_ci_lo": -0.02956412921795789,
+          "gap_placebo_ci_hi": 0.027165820109812704,
+          "real_abs_beta_lo": 0.03217347612399912,
+          "real_abs_beta_hi": 0.018633901985824597,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "1": {
+          "gap_real": 0.04443042496625438,
+          "gap_placebo_mean": 0.014491044740040876,
+          "gap_placebo_ci_lo": -0.018872418617746686,
+          "gap_placebo_ci_hi": 0.048912900981517966,
+          "real_abs_beta_lo": 0.08682350672926376,
+          "real_abs_beta_hi": 0.04239308176300938,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "3": {
+          "gap_real": 0.04471839562835811,
+          "gap_placebo_mean": 0.04648020737046959,
+          "gap_placebo_ci_lo": -0.004403227469470499,
+          "gap_placebo_ci_hi": 0.09759213156175171,
+          "real_abs_beta_lo": 0.10509403258804895,
+          "real_abs_beta_hi": 0.06037563695969084,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "6": {
+          "gap_real": 0.0800823574793803,
+          "gap_placebo_mean": 0.07134568002106599,
+          "gap_placebo_ci_lo": -0.007261229750640117,
+          "gap_placebo_ci_hi": 0.14816324268028908,
+          "real_abs_beta_lo": 0.15954378718214457,
+          "real_abs_beta_hi": 0.07946142970276426,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "12": {
+          "gap_real": 0.1525051096686525,
+          "gap_placebo_mean": 0.14468441316957917,
+          "gap_placebo_ci_lo": 0.017629628444019257,
+          "gap_placebo_ci_hi": 0.2566734448210836,
+          "real_abs_beta_lo": 0.2411159786718926,
+          "real_abs_beta_hi": 0.08861086900324011,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "18": {
+          "gap_real": 0.06358294282643229,
+          "gap_placebo_mean": 0.09180481424643863,
+          "gap_placebo_ci_lo": -0.036749274131119954,
+          "gap_placebo_ci_hi": 0.22936109404328117,
+          "real_abs_beta_lo": 0.23191709825935192,
+          "real_abs_beta_hi": 0.16833415543291963,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "24": {
+          "gap_real": 0.05753599815609789,
+          "gap_placebo_mean": 0.06833521038661694,
+          "gap_placebo_ci_lo": -0.09454719094000649,
+          "gap_placebo_ci_hi": 0.21701856953012014,
+          "real_abs_beta_lo": 0.21309558149341967,
+          "real_abs_beta_hi": 0.15555958333732178,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        }
+      },
+      "garch": {
+        "0": {
+          "gap_real": 0.013539574138174526,
+          "gap_placebo_mean": -0.000921889249819523,
+          "gap_placebo_ci_lo": -0.027113237318640782,
+          "gap_placebo_ci_hi": 0.02616200011546826,
+          "real_abs_beta_lo": 0.03217347612399912,
+          "real_abs_beta_hi": 0.018633901985824597,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "1": {
+          "gap_real": 0.04443042496625438,
+          "gap_placebo_mean": 0.016275122829649977,
+          "gap_placebo_ci_lo": -0.027941567477061845,
+          "gap_placebo_ci_hi": 0.05976838572167948,
+          "real_abs_beta_lo": 0.08682350672926376,
+          "real_abs_beta_hi": 0.04239308176300938,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "3": {
+          "gap_real": 0.04471839562835811,
+          "gap_placebo_mean": 0.038335381470601566,
+          "gap_placebo_ci_lo": -0.026700624493618007,
+          "gap_placebo_ci_hi": 0.10890007311060536,
+          "real_abs_beta_lo": 0.10509403258804895,
+          "real_abs_beta_hi": 0.06037563695969084,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "6": {
+          "gap_real": 0.0800823574793803,
+          "gap_placebo_mean": 0.07112740674877108,
+          "gap_placebo_ci_lo": -0.03423668019723611,
+          "gap_placebo_ci_hi": 0.16219590639675635,
+          "real_abs_beta_lo": 0.15954378718214457,
+          "real_abs_beta_hi": 0.07946142970276426,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "12": {
+          "gap_real": 0.1525051096686525,
+          "gap_placebo_mean": 0.1253327465718912,
+          "gap_placebo_ci_lo": -0.03454206083534519,
+          "gap_placebo_ci_hi": 0.2655755200879946,
+          "real_abs_beta_lo": 0.2411159786718926,
+          "real_abs_beta_hi": 0.08861086900324011,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "18": {
+          "gap_real": 0.06358294282643229,
+          "gap_placebo_mean": 0.08340693292535561,
+          "gap_placebo_ci_lo": -0.11356559812818691,
+          "gap_placebo_ci_hi": 0.27287070221161314,
+          "real_abs_beta_lo": 0.23191709825935192,
+          "real_abs_beta_hi": 0.16833415543291963,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        },
+        "24": {
+          "gap_real": 0.05753599815609789,
+          "gap_placebo_mean": 0.05146041844642577,
+          "gap_placebo_ci_lo": -0.17227237612673194,
+          "gap_placebo_ci_hi": 0.2723432014676775,
+          "real_abs_beta_lo": 0.21309558149341967,
+          "real_abs_beta_hi": 0.15555958333732178,
+          "verdict": "scale artefact (gap_real inside symmetric band)"
+        }
+      }
+    }
+  },
+  "taus": [
+    0.01,
+    0.05,
+    0.95,
+    0.99
+  ],
+  "horizons": [
+    0,
+    1,
+    3,
+    6,
+    12,
+    18,
+    24
+  ],
+  "vol_models": [
+    "rolling",
+    "garch"
+  ],
+  "gap_pair": {
+    "lo_tau": 0.01,
+    "hi_tau": 0.99
+  },
+  "max_iter": 20000,
+  "seed": 42,
+  "n_jobs": -1,
+  "seed_scheme": "default_rng([seed, VOL_MODEL_SEED_KEY[vol_model]]) with VOL_MODEL_SEED_KEY={rolling:1, garch:2}; sign vectors pre-drawn sequentially before any parallel dispatch. NOTE: pre-2026-06-12 runs used abs(hash(vol_model)) which is process-randomised (PYTHONHASHSEED) \u2014 those streams are NOT reproducible; canonical = this scheme.",
+  "n_rows_panel": 40582,
+  "regressors": [
+    "shock",
+    "shock_x_oi_high",
+    "oi_high",
+    "ret_btc_spot",
+    "vol_eth_7d",
+    "funding_rate",
+    "basis_bps"
+  ],
+  "controls": [
+    "ret_btc_spot",
+    "vol_eth_7d",
+    "funding_rate",
+    "basis_bps"
+  ],
+  "run_timestamp_utc": "2026-07-02T20:20:13.894058+00:00",
+  "python_version": "3.12.3",
+  "arch_version": "7.2.0",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

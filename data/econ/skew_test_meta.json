@@ -1,0 +1,71 @@
+{
+  "spec": {
+    "shock": "RAW = log_liq.shift(1)",
+    "regressors": [
+      "shock",
+      "shock_x_oi_high",
+      "oi_high",
+      "ret_btc_spot",
+      "vol_eth_7d",
+      "funding_rate",
+      "basis_bps"
+    ],
+    "shock_col_idx": 1,
+    "returns": "per-period (non-overlapping) ret_eth_perp, h=0",
+    "standardization": "ret_eth_perp / vol_eth_7d (== panel ret_eth_std)",
+    "tail_cutoffs_pct": [
+      5.0,
+      1.0
+    ],
+    "winsor_q": 0.01,
+    "measures": {
+      "skew_tailNN": "beta_shock on (1[z<=q_tau] - 1[z>=q_{1-tau}]) = beta_down - beta_up, scale removed",
+      "z3_winsor": "beta_shock on winsorized standardized-return cubed"
+    }
+  },
+  "inference": {
+    "method": "moving-block bootstrap (OLS refit), same block construction as bootstrap.one_rep_scalar",
+    "block_size": 24,
+    "n_boot": 1000,
+    "ci": "percentile [2.5, 97.5]",
+    "pval": "two-sided centered: mean(|b-mean(b)| >= |b_point|)",
+    "seed": 42,
+    "test_id": 20
+  },
+  "z_std_diagnostics": {
+    "mean": 0.001036746200753387,
+    "std": 1.0180848314433393,
+    "skew": -0.2547996905229376,
+    "q01": -2.9841949468304483,
+    "q05": -1.5570067354971509,
+    "q95": 1.4989039743563008,
+    "q99": 2.789635840650405,
+    "n": 40582
+  },
+  "results": {
+    "skew_tail05": {
+      "beta": 0.0004291037717763932,
+      "ci_lo": -0.0007493517013446179,
+      "ci_hi": 0.0015778373502870102,
+      "pval": 0.446,
+      "n_obs": 40582
+    },
+    "skew_tail01": {
+      "beta": 0.0007095009285964496,
+      "ci_lo": 0.0001804467106742548,
+      "ci_hi": 0.0012644741801209943,
+      "pval": 0.012,
+      "n_obs": 40582
+    },
+    "z3_winsor": {
+      "beta": -0.02929537776309106,
+      "ci_lo": -0.0439136343396294,
+      "ci_hi": -0.014793929517444066,
+      "pval": 0.0,
+      "n_obs": 40582
+    }
+  },
+  "run_timestamp_utc": "2026-07-02T18:41:51.617923+00:00",
+  "python_version": "3.12.3",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

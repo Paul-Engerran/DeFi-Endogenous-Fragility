@@ -1,0 +1,38 @@
+\section{Robustness Battery}
+\label{app:robustness}
+
+The conventional robustness battery referenced in
+Section~\ref{sec:apparent} comprises a cross-asset placebo (the
+orthogonalized shock applied to XRP and DOGE returns, neither used as
+ETH-collateral), alternative shock definitions (raw versus
+BTC-orthogonalized), subperiod and crisis-episode exclusions, a
+monotonicity test across quantiles, and the exact-specification bootstrap
+band of Figure~\ref{fig:irf}. The sign and tail significance of
+$\beta_h(0.01)$ and $\beta_h(0.05)$ survive throughout, while the leverage
+interaction is null in every variant. This is the pattern of
+Section~\ref{sec:apparent-crack}. The full battery and its companion
+metadata are in the replication package (\texttt{robustness\_*.csv}).
+
+\paragraph{Dual permutation nulls.}
+The two nulls of Section~\ref{sec:purenull} are reported jointly, with their
+preservation diagnostics, in
+\texttt{pure\_\allowbreak null\_\allowbreak circular\_\allowbreak shift\_\allowbreak by\_\allowbreak horizon.csv} and
+\texttt{pure\_\allowbreak null\_\allowbreak innov\_\allowbreak shuffle\_\allowbreak by\_\allowbreak horizon.csv}. The conservative
+circular-shift null preserves the shock's marginal distribution and
+autocorrelation exactly (verified in the metadata) while severing its
+alignment with returns; the innovation-reshuffle null destroys the return's
+serial dependence (its absolute-return autocorrelation falls from
+its empirical value to essentially zero). Both yield a minority artifact
+share at every horizon (\PnCircHtwelve{} and \PnInnovHtwelve{} at twelve
+hours), with a signed null mean indistinguishable from zero
+(\PnCircSignedHtwelve{} under the conservative null), and the real
+coefficient outside the null band throughout. Both constructions are small,
+and neither produces a signed downward bias.
+
+\paragraph{Nine-quantile grid.}
+The main text reports the six-quantile grid
+$\{0.01,\allowbreak 0.05,\allowbreak 0.10,\allowbreak 0.50,\allowbreak 0.90,\allowbreak
+0.95\}$; the nine-quantile grid (adding
+$0.25$, $0.75$, $0.99$) is provided in \texttt{quantile\_\allowbreak lp\_\allowbreak results\_\allowbreak 9q.csv}
+and yields the same qualitative profile, with the $0.99$ upside mirror used
+for the left--right gap statistic of Section~\ref{sec:placebo}.

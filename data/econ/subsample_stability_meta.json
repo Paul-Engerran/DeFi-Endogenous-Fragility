@@ -1,0 +1,81 @@
+{
+  "script": "scripts/aux/run_subsample_stability.py",
+  "purpose": "Temporal-split + leave-out-Aug-2024 stability of the headline beta(0.01,h) profile and the paired exceedance Delta at alpha=0.01.",
+  "objects": {
+    "beta_q01": "QLP beta_shock(0.01, h) point estimates (profile reading; no tail kernel inference)",
+    "delta_exceed_a01": "per-period LPM paired Delta, MBB block CI (run_exceedance machinery; subsample-specific thresholds)"
+  },
+  "splits": {
+    "median_split": "2023-08-08 12:30:00+00:00",
+    "loo_drop_from": "2024-07-31 00:00:00+00:00",
+    "loo_drop_to": "2024-08-15 00:00:00+00:00",
+    "loo_backward_extension_hours": 24
+  },
+  "subsamples": {
+    "full": {
+      "n_rows": 40582,
+      "q_lo": -2.460917754574586,
+      "q_hi": 2.3342584636399035,
+      "date_min": "2021-04-15 02:00:00+00:00",
+      "date_max": "2025-11-30 23:00:00+00:00",
+      "test_id": 15101
+    },
+    "first_half": {
+      "n_rows": 20291,
+      "q_lo": -2.7012923142923206,
+      "q_hi": 2.652042855577627,
+      "date_min": "2021-04-15 02:00:00+00:00",
+      "date_max": "2023-08-08 12:00:00+00:00",
+      "test_id": 15102
+    },
+    "second_half": {
+      "n_rows": 20291,
+      "q_lo": -2.0398363778346784,
+      "q_hi": 1.918375302270901,
+      "date_min": "2023-08-08 13:00:00+00:00",
+      "date_max": "2025-11-30 23:00:00+00:00",
+      "test_id": 15103
+    },
+    "loo_aug2024": {
+      "n_rows": 40222,
+      "q_lo": -2.4531853268611705,
+      "q_hi": 2.32012164610351,
+      "date_min": "2021-04-15 02:00:00+00:00",
+      "date_max": "2025-11-30 23:00:00+00:00",
+      "test_id": 15104
+    }
+  },
+  "alpha": 0.01,
+  "tau_headline": 0.01,
+  "horizons": [
+    0,
+    1,
+    3,
+    6,
+    12,
+    18,
+    24
+  ],
+  "n_boot": 1000,
+  "block_size": 24,
+  "max_iter": 20000,
+  "seed": 42,
+  "seed_namespace": {
+    "scheme": "make_seed_sequences(BASE_SEED, TEST_ID, alpha_int, h, n)",
+    "test_ids": {
+      "full": 15101,
+      "first_half": 15102,
+      "second_half": 15103,
+      "loo_aug2024": 15104
+    }
+  },
+  "sesoi_reference_spans_beta": {
+    "strict_p50p95": 0.001092,
+    "iqr": 0.003834,
+    "note": "smoke-grade reference; canonical verdicts via run_mde_equivalence"
+  },
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "run_timestamp_utc": "2026-07-02T18:49:34.880451+00:00",
+  "python_version": "3.12.3",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

@@ -1,0 +1,197 @@
+\section{Empirical Strategy}
+\label{sec:method}
+
+\subsection{The estimand}
+
+For each quantile $\tau$ and horizon $h$ we estimate, by local projection
+\citep{jorda2005}, the response of the conditional return quantile to the
+liquidation shock:
+\begin{equation}
+\label{eq:qlp}
+\QR_{\tau}\!\left(r_{t \to t+h} \mid \mathcal{F}_t\right)
+ = \beta_h(\tau)\, L_{t-1}
+ + \delta_h(\tau)\, \left(L_{t-1} \times \texttt{oi\_high}_t\right)
+ + \gamma_h(\tau)' X_t ,
+\end{equation}
+where $r_{t \to t+h}$ is the cumulative ETH return from $t$ to $t+h$,
+$L_{t-1}$ the lagged log-liquidation shock, and $X_t$ the controls of
+Section~\ref{sec:method-controls}. The object of interest is
+$\beta_h(\tau)$ across $\tau \in \{0.01, 0.05, 0.10, 0.50, 0.90, 0.95\}$
+and $h \in \{0, \dots, 24\}$ hours (a nine-quantile grid is reported in the
+appendix). Estimation is by quantile regression \citep{koenker1978}; the
+estimator and its bootstrap inference follow \citet{han2024}.
+
+The quantile approach is necessary rather than cosmetic, for two reasons.
+First, the hypothesis under test, leverage-cycle amplification
+\citep{geanakoplos2010,brunnermeier2009}, is a statement about the
+\emph{tails} of the return distribution, not its mean. Second, the mean is
+empirically silent here: an OLS local projection of returns on the shock
+finds nothing at any horizon (point estimate $\approx \OlsLpBetaHzero$ on
+impact, HAC $p = \OlsLpPHzero$). This is the Growth-at-Risk logic of
+\citet{adrian2019}
+transposed to high-frequency crypto returns: tails can respond where the
+mean is blind. We note at the outset a tension that
+Section~\ref{sec:deconstruction} resolves. \citet{adrian2019} interpret
+asymmetric tail sensitivity through conditional skewness;
+\citet{carriero2024} show that symmetric conditional distributions, under joint shifts in mean and variance, can produce the same apparent pattern; and \citet{brownlees2021} find that a
+plain GARCH rivals quantile-regression Growth-at-Risk out of sample.
+Distinguishing those readings is the heart of this paper.
+
+\subsection{Shock definition and timing}
+\label{sec:method-shock}
+
+The canonical shock is \emph{raw}: $L_{t-1} = \ln(1 +
+\text{liq}^{\text{USD}}_{t-1})$, one-hour lagged
+(Section~\ref{sec:data}). Timing is read strictly. ``$h=0$'' is a
+one-hour-ahead prediction; within the bucket at $h=-1$, prices and
+liquidations co-move mechanically (the reverse-causality zone of Fact 2);
+only $h \le -2$ would be a true lead. All claims are therefore
+predictive associations.
+
+A second, \emph{orthogonalized} shock (the residual of an OLS regression
+of the log flow on contemporaneous and lagged BTC returns, then lagged)
+is reserved for the cross-asset placebo (Test A of the robustness battery),
+in the ex-ante residualization spirit of \citet{borusyak2022}. The two
+definitions preserve sign and significance at every horizon and agree to
+within a few percent from six hours out, but diverge at short horizons (the
+impact tail coefficient is about 60\% larger under orthogonalization). The
+choice between raw and orthogonalized is thus an identification convention
+that leaves the symmetry finding and the bound intact, not a claim of
+numerical coincidence at every horizon; residualizing at the quantile (rather than by OLS)
+is an acknowledged refinement left for future work.
+
+\subsection{Controls and the identification logic}
+\label{sec:method-controls}
+
+The regressor set is locked:
+$\{L_{t-1},\; L_{t-1}\times\texttt{oi\_high}_t,\; \texttt{oi\_high}_t,\;
+r^{\text{BTC}}_t,\; \sigma^{7d}_t,\; \text{funding}_t,\; \text{basis}_t\}$.
+The realized-volatility control $\sigma^{7d}_t$ (168-hour rolling standard
+deviation) is not a nuisance term: it is central to the identification.
+Liquidations raise volatility, and volatility widens \emph{both}
+tails symmetrically; the leverage-cycle prediction is specifically
+\emph{downside} amplification. Holding $\sigma^{7d}_t$ fixed conditions
+$\beta_h(\tau)$ on the \emph{predetermined} volatility state, removing the
+confound between the shock and the pre-existing volatility regime. It does
+not remove the shock's own forward-volatility response
+(Section~\ref{sec:volchannel}). But that response is symmetric, so it cannot
+manufacture asymmetry; it is the symmetric residual that the placebo and
+the paired tail tests identify directly. The asymmetry tests, not this
+control alone, are therefore what separate a real downside shape from a
+symmetric scale effect. That a symmetric conditional distribution can
+masquerade as downside risk is the demonstration of \citet{carriero2024},
+there through joint shifts in mean and variance; the scale-versus-shape
+distinction is what quantile regression makes testable
+\citep{koenker1982,machado2000}. Realized volatility is preferred to a
+GARCH or implied measure because it is observable, model-free, and
+predetermined; model-based volatility enters only inside the placebo DGPs
+of Section~\ref{sec:deconstruction}, where its model-dependence is the
+point.
+
+\subsection{Inference}
+\label{sec:method-inference}
+
+Inference proceeds on two tiers. At central quantiles, kernel standard
+errors (Hall--Sheather bandwidth) are retained. At tail quantiles
+($\tau \in \{0.01, 0.05, 0.95, 0.99\}$), the primary inferential object is
+the percentile confidence interval from a moving-block bootstrap with
+24-hour blocks \citep{fitzenberger1998,politis1994,gregory2018}, for two
+reasons. First, the cumulative left-hand side is overlapping by
+construction, so residuals are serially correlated at every $h > 0$
+\citep{montiel2021,lusompa2023}; blocks of one day, the maximal horizon,
+preserve that dependence. Second, at $\tau = 0.01$ roughly 406
+observations sit below the conditional quantile, and the extremal quantile
+regression literature shows the asymptotic distribution is non-Gaussian
+that far in the tail \citep{chernozhukov2005,chernozhukov2011}, making
+kernel inference unreliable: on the exact headline specification, the
+bootstrap-to-kernel standard-error ratio at $\tau = 0.01$ ranges from
+\SeRatioMin{} to \SeRatioMax{} across horizons
+(Appendix Table~\ref{tab:seratio}). All bootstrap results use $1{,}000$
+replications with a deterministic multi-level seeding scheme. The MBB block
+length does not drive the results: re-running the tail inference at 12-, 36-, and
+48-hour blocks leaves every interval and every minimum detectable effect
+essentially unchanged (Appendix Table~\ref{tab:blocksens}).
+
+\subsection{The diagnostic battery}
+\label{sec:method-battery}
+
+The core methodological contribution is a battery of diagnostics. Each one is
+designed to isolate a single confound of the naive reading. What survives all
+of them is what we are willing to call a real signal.
+
+\begin{table}[t]
+\centering
+\caption{Diagnostic tests, one per confound.}
+\label{tab:battery}
+{\small
+\begin{tabular}{p{0.27\textwidth}p{0.21\textwidth}p{0.42\textwidth}}
+\toprule
+Diagnostic & Confound isolated & Logic \\
+\midrule
+Symmetric sign-flip placebo & volatility (scale) & does a zero-skew world
+with the real volatility path reproduce $\beta(0.01)$ and the left--right
+gap? \citep{wu1986,liu1988,davidson2008,carriero2024} \\
+Dual permutation nulls & overlap artifact & destroy the shock--return link
+(circular shift; innovation reshuffle), keep the cumulative LHS: any
+surviving $\beta$ is mechanical \citep{hodrick1992,boudoukh2008,valkanov2003} \\
+Tail-exceedance regressions & (the predictor + the symmetry test) & does
+the shock predict future tail violations, and equally on both sides?
+\citep{engle2004,balcilar2017} \\
+Standardized skew tests & scale noise & standardize by predetermined volatility, then
+test down-minus-up and the third moment \citep{neuberger2021,farago2023} \\
+BTC-outcome placebo & asset specificity & re-run the full QLP with BTC as
+the outcome: does the signature replicate on an asset without the
+ETH-collateral channel? \\
+Equivalence bounds (MDE/TOST) & power & convert ``not found'' into ``we
+exclude effects larger than $X$''
+\citep{altman1995,ioannidis2017,lakens2017,riesthuis2024} \\
+Out-of-sample pinball test & in-sample overfit & does liquidation
+information improve rolling-origin tail forecasts against nested and
+GARCH benchmarks? \citep{diebold1995} \\
+Planted-cascade positive control & power (false negatives) & does the
+battery recover a sign-specific downside asymmetry planted at known scale,
+and stay silent below it? \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Table~\ref{tab:battery} summarizes the battery; applications and results
+are in Sections~\ref{sec:deconstruction}--\ref{sec:survives}. The
+equivalence step requires a pre-specified smallest effect size of interest
+(SESOI). We set it at a one-percentage-point difference in tail-violation
+probability between the downside and upside over the span of the shock,
+translated into coefficient units under three calibrations of that span
+(interquartile, median-to-95th, and 10th-to-90th percentile of the nonzero
+shock); the strictest yields \SesoiStrict{} per unit of the log shock. The
+one-point threshold is decisional, not statistical. It is the smallest
+down-versus-up tail miscalibration a Value-at-Risk desk would act on, not the
+smallest the sample can resolve \citep{lakens2017}. One percentage point is
+the order at which a shift in the realized 1\% exceedance rate moves a model
+across the Basel traffic-light boundary over the standard 250-day backtesting
+window. That window is the institutional unit at which tail calibration is
+judged by mandate, and we anchor the threshold to it rather than to the far
+finer statistical resolution of a forty-thousand-hour sample.
+
+\subsection{Multiple testing and the locked specification}
+
+Bonferroni corrections guard the grid searches: a $\times 12$ family over
+the reported $\tau \times h$ cells and a $\times 6$ family over the
+quantile grid. The direct shock effect survives both families in full
+(12/12 and 6/6); the leverage interaction $\delta_h(\tau)$ fails all six
+(0/6). We carry that null forward as it stands, since the interaction was the
+specification's embodiment of the leverage-cycle prediction. We read it as a
+\emph{detectability} null, not a tight bound (the interaction is imprecisely
+estimated; Section~\ref{sec:apparent-crack}), and the paper's quantitative
+bounds rest on the asymmetry objects, not on this count. The
+corrections guard against noise, not against artifacts, which is exactly why
+the battery of Table~\ref{tab:battery} exists.
+
+The specification was locked before the diagnostic phase: every parameter
+(quantile grids, horizons, controls, block length, replication counts,
+seeds) is fixed in a single configuration file, and every diagnostic is a
+flagged auxiliary analysis, never a modification of
+Equation~\eqref{eq:qlp}. The full pipeline, from panel construction through
+estimation, robustness, diagnostics, and every number, table, and figure in
+this paper, regenerates from public data with a one-command replication
+package; local smoke runs and the canonical compute environment reproduce
+point estimates to three decimals.

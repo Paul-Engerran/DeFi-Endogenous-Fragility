@@ -1,0 +1,173 @@
+name: smoke
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    name: pytest (no-data unit tests)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ["3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Run the full test suite (panel is committed)
+        run: |
+          # The analysis panel ships in the repo (data/econ, the committed-panel
+          # packaging), so the panel-dependent tests run too (no longer
+          # auto-skipped). This exercises the data-dependent tests on every
+          # CI platform.
+          pytest tests/ -q
+
+  path-a-from-clone:
+    name: Path A wiring (estimation + Test A + paper from a fresh clone)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.12"]
+    steps:
+      # No Git LFS and no Release fetch: Path A runs purely from artefacts
+      # committed to the repo (the data/econ/ panel plus the two committed
+      # spot placebo parquets in data/normalized/spot/ feeding Test A). The
+      # Path A Make targets existence-guard on the shipped panel and do NOT
+      # trigger panel construction. This job validates the committed-panel
+      # packaging (analysis panel + 2 spot parquets shipped in-repo) + the
+      # Makefile existence-guard fix.
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Path A wiring (no raw data, no Release bundle, no credentials)
+        run: |
+          # estimation: proves the shipped panel is NOT rebuilt from raw (existence-guard fix)
+          make estimation PY=python
+          # Test A only, light bootstrap: exercises the committed XRP/DOGE spot
+          # parquets (shipped in-repo as part of the committed-panel packaging)
+          # without the multi-hour full battery (the Makefile warns 16 vCPU /
+          # 32 GB / ~30 min for `make robustness`). Test A is fast and deterministic.
+          python scripts/run_robustness_all.py --tests A --n_boot 50 --n_jobs 2 --seed 42
+          # paper layer: figures + tables + numbers from committed + regenerated CSVs
+          make paper PY=python
+      - name: Assert Path A outputs exist
+        run: |
+          for f in data/econ/quantile_lp_results.csv \
+                   data/econ/robustness_placebo_fast.csv \
+                   paper/figures/fig3_qlp_irf.pdf \
+                   paper/numbers.tex; do
+            if [ ! -f "$f" ]; then
+              echo "::error::expected Path A output missing: $f"
+              exit 1
+            fi
+          done
+      - name: Drift gate (regenerated text exhibits must match committed)
+        run: |
+          # make estimation is deterministic (--n_jobs 1), so the regenerated
+          # in-text macros + table fragments must be byte-identical to the
+          # committed ones. Figures (PDF) embed timestamps and are excluded.
+          git diff --exit-code -- paper/numbers.tex paper/tables/ \
+            || { echo "::error::paper text drift vs committed (numbers.tex/tables changed)"; exit 1; }
+
+  smoke-with-data:
+    name: make smoke (with normalized data fixture)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Check that data/normalized is populated
+        run: |
+          # make smoke (Path B) rebuilds from the FULL raw+normalized bundle,
+          # NOT shipped in the repo (only the 2 spot placebo parquets and the
+          # analysis panel are committed). Fetch+extract the GitHub Release v2.0.0
+          # archive (see the fetch command below) before this step.
+          # Fetch+extract the full-data Release before this step (the archive unzips at repo root into data/raw and data/normalized):
+          #   curl -L -o data_archive.zip https://github.com/Paul-Engerran/DeFi-Endogenous-Fragility/releases/download/v2.0.0/data_archive_v2.0.0.zip
+          #   unzip -q data_archive.zip   # creates data/raw/... and data/normalized/...
+          if [ ! -f data/normalized/cex/bybit/klines_1h.parquet ]; then
+            echo "::warning::data/normalized/ not populated — make smoke will skip"
+            echo "DATA_PRESENT=false" >> $GITHUB_ENV
+          else
+            echo "DATA_PRESENT=true" >> $GITHUB_ENV
+          fi
+      - name: Run make smoke
+        if: env.DATA_PRESENT == 'true'
+        run: make smoke PY=python
+      - name: Upload smoke artefacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-${{ matrix.os }}
+          path: |
+            /tmp/smoke_data
+            /tmp/smoke_econ
+            /tmp/smoke_ckpt
+          retention-days: 7
+
+  determinism:
+    name: bit-for-bit determinism (estimation, Linux canonical)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Two-pass estimation, byte-identity + committed fingerprint check
+        run: |
+          # Panel-based (no raw bundle): run_quantile_lp reads the committed panel.
+          # Determinism env mirrors the Makefile pins.
+          export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+                 NUMEXPR_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 PYTHONHASHSEED=0
+          make estimation PY=python
+          sha256sum data/econ/quantile_lp_results.csv | awk '{print $1}' > /tmp/run1.sha
+          rm -f data/econ/quantile_lp_results.csv data/econ/quantile_lp_results.parquet
+          make estimation PY=python
+          sha256sum data/econ/quantile_lp_results.csv | awk '{print $1}' > /tmp/run2.sha
+          echo "run1=$(cat /tmp/run1.sha)  run2=$(cat /tmp/run2.sha)"
+          diff /tmp/run1.sha /tmp/run2.sha && echo ">>> two-pass byte-identical OK"
+          # Committed baseline (produced by `make reproduce` on the canonical
+          # Linux x86_64 VM). Informational on hosted runners: a different CPU's
+          # BLAS kernel dispatch can shift last-ulp floats, so a mismatch here is
+          # NOT a failure — the hard determinism gate is the two-pass check above.
+          sha256sum -c tests/fingerprints.txt \
+            || echo "::warning::baseline fingerprint differs from the canonical-platform hash (expected on non-canonical CPUs; two-pass identity above is the binding check)"

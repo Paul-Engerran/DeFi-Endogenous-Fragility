@@ -1,0 +1,114 @@
+{
+  "test": "Minimum detectable effect (MDE) for the DELTA interaction slope-shift at tau=0.01 (leverage-interaction MDE).",
+  "what_this_does": "Converts the shock x oi_high interaction non-rejection into a detectability statement: the smallest leverage-cycle amplification (delta-slope-shift) the canonical bootstrap could have detected (MDE_delta@80), set as a ratio against the direct tail effect |beta_direct| it would have to amplify.",
+  "derived_not_reestimated": "CIs read from canonical quantile_interaction_bootstrap_fast.csv; direct effects read from canonical quantile_lp_results.csv. SE inferred from each CI half-width / z_{0.975} so MDE is exactly consistent with the published intervals. NOTHING is re-estimated; the locked QLP equation and the canonical bootstrap are untouched.",
+  "object": {
+    "delta_interaction": "beta_interaction (the change in the shock's tail effect when oi_high flips on) at tau=0.01, horizons [0, 3, 6, 12, 24]; CIs from quantile_interaction_bootstrap_fast.csv.",
+    "beta_direct": "|beta_shock| at tau=0.01 from quantile_lp_results.csv \u2014 the direct tail effect the interaction would have to amplify."
+  },
+  "formulas": {
+    "se_from_ci": "SE = (ci_hi - ci_lo) / 2 / z_{1-alpha/2}",
+    "mde": "MDE = (z_{1-alpha/2} + z_power) * SE  (interaction-slope units)",
+    "ratio": "ratio = MDE_delta@80 / |beta_direct(tau,h)|",
+    "alpha_test": 0.05,
+    "z_{1-alpha/2}": 1.959963984540054,
+    "z_power_default": 0.8416212335729143,
+    "power_default": 0.8,
+    "power_also_reported": 0.5,
+    "mde_50_meaning": "power=0.50 => z_power=0 => MDE = z_{1-alpha/2}*SE = CI half-width (smallest 'just-significant' delta-slope-shift).",
+    "machinery_source": "Identical se_from_ci -> MDE machinery as run_mde_equivalence.py (mde_equivalence_meta.json)."
+  },
+  "identification_guardrail": {
+    "delta_is_not_asymmetry": "delta is a REGIME-SLOPE-SHIFT (effect change when oi_high turns on), NOT a down-minus-up difference. It does NOT inherit the sigma-cancellation that narrows the asymmetry object's CI \u2014 that absence of cancellation is WHY the delta CI is wide.",
+    "no_tost": "There is NO pre-registered delta-SESOI in interaction-slope units, so NO TOST / equivalence test is run against the asymmetry SESOI. MDE is reported ONLY. The bounded-negligible reasoning of the asymmetry/MDE-equivalence object is NOT imported."
+  },
+  "decision_branch": {
+    "pre_planned": {
+      "UNDERPOWERED-NULL": "CONFIRMATORY: MDE_delta@80 materially > |beta_direct| (ratio > 1) => detectability (underpowered) null; supports the manuscript's leverage-interaction prose.",
+      "TIGHT-NULL": "NON-CONFIRMATORY: MDE_delta@80 <= |beta_direct| (ratio <= 1) => genuine tight null; the leverage-interaction prose must FLIP to bounded-negligible language. SURFACED if it fires.",
+      "ratio_cutoff": 1.0
+    },
+    "branch_fired": "CONFIRMATORY (all horizons UNDERPOWERED-NULL)"
+  },
+  "per_horizon": [
+    {
+      "tau": 0.01,
+      "h": 0,
+      "ci_lo_reported": -0.0801763760616202,
+      "ci_hi_reported": 0.0721039046070177,
+      "se_inferred": 0.03884772421070115,
+      "mde_50": 0.07614014033431896,
+      "mde_80_at_power": 0.10883520990602963,
+      "beta_direct": -0.0321734761239991,
+      "abs_beta_direct": 0.0321734761239991,
+      "ratio_mde80_to_direct": 3.382761921235063,
+      "verdict": "UNDERPOWERED-NULL",
+      "reading": "MDE_delta@80=0.1088 is 3.38x the direct tail effect |beta_direct|=0.03217: the design could only have detected an amplification larger than the direct effect, so the interaction non-rejection is a DETECTABILITY (underpowered) null."
+    },
+    {
+      "tau": 0.01,
+      "h": 3,
+      "ci_lo_reported": -0.2527281837554004,
+      "ci_hi_reported": 0.1268234329811967,
+      "se_inferred": 0.09682617122826027,
+      "mde_50": 0.18977580836829855,
+      "mde_80_at_power": 0.27126677003956917,
+      "beta_direct": -0.1050940325880489,
+      "abs_beta_direct": 0.1050940325880489,
+      "ratio_mde80_to_direct": 2.5811814749072357,
+      "verdict": "UNDERPOWERED-NULL",
+      "reading": "MDE_delta@80=0.2713 is 2.58x the direct tail effect |beta_direct|=0.1051: the design could only have detected an amplification larger than the direct effect, so the interaction non-rejection is a DETECTABILITY (underpowered) null."
+    },
+    {
+      "tau": 0.01,
+      "h": 6,
+      "ci_lo_reported": -0.2726316260171291,
+      "ci_hi_reported": 0.1957233096512727,
+      "se_inferred": 0.1194804953975496,
+      "mde_50": 0.2341774678342009,
+      "mde_80_at_power": 0.3347347897585895,
+      "beta_direct": -0.1595437871821445,
+      "abs_beta_direct": 0.1595437871821445,
+      "ratio_mde80_to_direct": 2.0980747396727946,
+      "verdict": "UNDERPOWERED-NULL",
+      "reading": "MDE_delta@80=0.3347 is 2.10x the direct tail effect |beta_direct|=0.1595: the design could only have detected an amplification larger than the direct effect, so the interaction non-rejection is a DETECTABILITY (underpowered) null."
+    },
+    {
+      "tau": 0.01,
+      "h": 12,
+      "ci_lo_reported": -0.3921172688144848,
+      "ci_hi_reported": 0.4584425630009329,
+      "se_inferred": 0.21698353605589826,
+      "mde_50": 0.42527991590770886,
+      "mde_80_at_power": 0.6078978671880869,
+      "beta_direct": -0.2411159786717416,
+      "abs_beta_direct": 0.2411159786717416,
+      "ratio_mde80_to_direct": 2.5211844960954948,
+      "verdict": "UNDERPOWERED-NULL",
+      "reading": "MDE_delta@80=0.6079 is 2.52x the direct tail effect |beta_direct|=0.2411: the design could only have detected an amplification larger than the direct effect, so the interaction non-rejection is a DETECTABILITY (underpowered) null."
+    },
+    {
+      "tau": 0.01,
+      "h": 24,
+      "ci_lo_reported": -0.6282471980705375,
+      "ci_hi_reported": 0.2599723506406416,
+      "se_inferred": 0.2265907832279934,
+      "mde_50": 0.44410977435558957,
+      "mde_80_at_power": 0.6348133888521862,
+      "beta_direct": -0.2130955814934196,
+      "abs_beta_direct": 0.2130955814934196,
+      "ratio_mde80_to_direct": 2.979007750434231,
+      "verdict": "UNDERPOWERED-NULL",
+      "reading": "MDE_delta@80=0.6348 is 2.98x the direct tail effect |beta_direct|=0.2131: the design could only have detected an amplification larger than the direct effect, so the interaction non-rejection is a DETECTABILITY (underpowered) null."
+    }
+  ],
+  "inputs": {
+    "interaction_bootstrap_csv": "data/econ/quantile_interaction_bootstrap_fast.csv",
+    "quantile_lp_results_csv": "data/econ/quantile_lp_results.csv",
+    "note": "Canonical n_boot=1000 interaction CIs are already on disk; smoke and canonical read the SAME CIs \u2014 only the reported horizon set differs."
+  },
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "run_timestamp_utc": "2026-06-18T00:41:51.599679+00:00",
+  "python_version": "3.9.6",
+  "platform": "macOS-14.8.7-x86_64-i386-64bit"
+}

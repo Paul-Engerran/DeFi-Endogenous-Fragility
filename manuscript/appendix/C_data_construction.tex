@@ -1,0 +1,77 @@
+\section{Construction of the Liquidation Measure}
+\label{app:data}
+
+The liquidation series is extracted from Dune Analytics query
+\texttt{6912877}, versioned in the replication package, over the
+open-source Spellbook tables \texttt{lending.borrow} (debt leg) and
+\texttt{lending.supply} (collateral leg), across all EVM chains and lending
+protocols indexed at extraction time. This appendix records the
+construction decisions that materially affect the primary regressor. The
+full query is in the package.
+
+\paragraph{Pre-aggregation before the join.}
+An event-level join of the debt and collateral legs on transaction produces
+a Cartesian product for transactions containing multiple debt and multiple
+collateral events. This pattern is common in bundled liquidation bots, and it
+inflates totals. The query pre-aggregates each leg by transaction before
+joining, eliminating the inflation by construction. The correction revised
+the 2024 and 2025 aggregate volumes downward by roughly fourteen and thirty
+percent respectively relative to a naive join, while pre-2024 aggregates
+moved by less than a quarter of a percent.
+
+\paragraph{Primary measure.}
+The primary variable is the hourly sum of debt forcibly repaid in USD,
+zero-filled on hours without qualifying liquidations, entered as
+$L_{t-1} = \ln(1 + \text{liq}^{\text{USD}}_{t-1})$ with a one-hour lag. The
+seized-collateral leg is retained as a robustness alternative. The two
+measures correlate above 0.97, and the choice changes the headline
+coefficient by less than three percent in log space.
+
+\paragraph{Collateral filter.}
+Only liquidations seizing ETH-like collateral are kept, using the symbol set
+\{WETH, ETH, stETH, wstETH, rETH, cbETH, sfrxETH, ETHx\}, so the measure
+isolates the ETH leverage channel. Liquid-staking derivatives are included,
+so the collateral is ETH-like in the broad sense. A depeg of a staking
+derivative could in principle inject non-pure-ETH liquidations, a rare
+event we note for completeness.
+
+\paragraph{Exclusions.}
+Three exclusions are applied on top of the structural filters. Positions
+with absolute debt below five dollars are dropped, removing a cluster of
+roughly 75{,}000 micro-events in September 2025 linked to bot activity that
+is immaterial in dollar terms. UwuLend liquidations from June 2024 onward
+are dropped to exclude an exploit-driven hour reporting an implausible
+volume attributable to on-chain exploit movements combined with pricing
+errors on illiquid tokens. Euler liquidations during the March--April 2023
+hack window are dropped; Euler v2, a distinct protocol launched in 2024, is
+retained. A small number of hours in late 2025 carry anomalous
+collateral-to-debt ratios from oracle pricing of illiquid tokens; these are
+economically invisible in the debt-repaid measure.
+
+\paragraph{Coverage caveats.}
+MakerDAO, historically the largest on-chain liquidator, sits outside the
+Spellbook lending schema (a CDP architecture) and is de facto absent, so the
+measure understates total on-chain deleveraging, most severely in 2021. No
+centralized-exchange liquidations enter. The query was executed once, on a
+single date; a future re-execution may differ marginally if the Spellbook
+tables are updated.
+
+\paragraph{Sensitivity to the MakerDAO gap.}
+Because the MakerDAO omission is the largest coverage gap, we bound its
+effect by an actual re-fit rather than an assumption. We inflate the observed
+liquidation series by a missing-Maker share $m$ (up to a punitive $m=0.5$)
+and re-estimate the locked specification, placing the missing mass three
+ways: proportional to currently-active hours, on stress-adjacent zero hours,
+and weighted toward high open-interest (leverage) hours. The shock
+coefficient's sign is preserved under every allocation and horizon. At impact
+its magnitude moves by at most \MakerLevelImpactPct\%, but at twelve hours the
+leverage-weighted infill (the largest-displacement allocation, since Maker
+auctions cluster in high-leverage, falling-price hours) attenuates the
+deepening by up to \MakerLevelMediumPct\%. Both displacement figures are the
+maximum over the defensible allocation range $m \le 0.25$; the punitive
+$m=0.5$ end of the sweep changes neither sign nor significance. The
+medium-horizon magnitude is therefore coverage-sensitive. The bounded object is not: the per-period exceedance
+asymmetry at the 1\% level stays within \MakerExcOverSesoi{} of the smallest
+effect size of interest under every allocation, and shrinks toward zero under
+the leverage-weighted and stress-adjacent infills, so a more complete measure
+would tighten rather than overturn the null.

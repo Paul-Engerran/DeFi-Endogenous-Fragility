@@ -1,0 +1,12 @@
+{
+  "shock_mean": 6.483501902579273,
+  "shock_median": 5.982322077664296,
+  "shock_std": 3.0946063296240554,
+  "shock_p95": 12.468227718483504,
+  "shock_p99": 15.146452376368,
+  "n_total": 40582,
+  "n_nonzero": 10952,
+  "run_timestamp_utc": "2026-07-02T16:51:01.067665+00:00",
+  "python_version": "3.12.3",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

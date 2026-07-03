@@ -1,0 +1,43 @@
+# pyproject.toml — minimal by design (no `pip install -e .` step required)
+#
+# Reviewer-friendly: NO `pip install -e .` step required. Scripts
+# adjust sys.path manually to find `src/` and `config.py`. The user
+# only runs `pip install -r requirements.txt`.
+#
+# This file is present for tooling discovery (e.g., black, ruff if the
+# author chooses to add linters) but is intentionally minimal. The
+# scripts and notebooks do NOT depend on it being installed.
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "defi-endogenous-fragility"
+version = "2.0.0"
+description = "Replication package: When Volatility Masquerades as Fragility (DeFi liquidations, quantile local projections, ETH tails)"
+readme = "README.md"
+requires-python = "==3.12.*"
+authors = [{ name = "Paul Engerran", email = "paul.engerran@gmail.com" }]
+license = { text = "MIT" }
+
+# Dependency list lives in requirements.txt for reviewer simplicity
+# (a single `pip install -r requirements.txt` is enough).
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --tb=short"
+filterwarnings = [
+    "ignore::FutureWarning",
+    "ignore::UserWarning",
+    "ignore::statsmodels.tools.sm_exceptions.IterationLimitWarning",
+]

@@ -1,0 +1,12 @@
+metric,numerator_defi_usd,denominator_eth_usd,ratio_pct,source
+mean_daily_defi_liq_vs_daily_eth_spot_perp_turnover,1464180.3365726036,45986301369.863014,0.0031839488999046784,"INDUSTRY EST (PRIMARY): spot $3-6T/yr (mid $4.5T), perp OI-weighted (top-10 $58.5T x ETH OI-share 21% = $12.285T/yr); order-of-magnitude"
+median_daily_defi_liq_vs_daily_eth_spot_perp_turnover,9287.392600213425,45986301369.863014,2.0195998207196306e-05,"INDUSTRY EST (PRIMARY): spot $3-6T/yr (mid $4.5T), perp OI-weighted (top-10 $58.5T x ETH OI-share 21% = $12.285T/yr); order-of-magnitude"
+max_day_defi_liq_vs_daily_eth_spot_perp_turnover,307163535.8799951,45986301369.863014,0.6679457289019852,"INDUSTRY EST (PRIMARY): spot $3-6T/yr (mid $4.5T), perp OI-weighted (top-10 $58.5T x ETH OI-share 21% = $12.285T/yr); order-of-magnitude"
+worst_7d_defi_liq_vs_7d_eth_spot_perp_turnover,335902213.65025747,321904109589.0411,0.10434853226294223,"INDUSTRY EST (PRIMARY): spot $3-6T/yr (mid $4.5T), perp OI-weighted (top-10 $58.5T x ETH OI-share 21% = $12.285T/yr); order-of-magnitude"
+max_day_defi_liq_vs_daily_eth_spot_perp_turnover_ALT_7XSPOT,307163535.8799951,98630136986.30138,0.31142969610055055,"INDUSTRY EST ALT: perp = 7x spot ($31.5T/yr), coarser spot-multiple convention; wash-inflated, not peer-reviewed"
+mean_daily_defi_liq_vs_oct2025_cascade,1464180.3365726036,19000000000.0,0.007706212297750544,INDUSTRY EST: 10-Oct-2025 ~$19B CEX-perp cascade (largest)
+median_daily_defi_liq_vs_oct2025_cascade,9287.392600213425,19000000000.0,4.888101368533382e-05,INDUSTRY EST: 10-Oct-2025 ~$19B CEX-perp cascade (largest)
+max_day_defi_liq_vs_black_thursday_cascade,307163535.8799951,1400000000.0,21.940252562856795,INDUSTRY EST: Black Thursday 12-Mar-2020 ~$1.4B CEX-perp cascade
+max_day_defi_liq_vs_may2021_cascade,307163535.8799951,8600000000.0,3.571669021860408,INDUSTRY EST: May-2021 ~$8.6B CEX-perp cascade
+max_day_defi_liq_vs_oct2025_cascade,307163535.8799951,19000000000.0,1.6166501888420794,INDUSTRY EST: 10-Oct-2025 ~$19B CEX-perp cascade (largest)
+total_sample_defi_liq_vs_oct2025_single_day_cascade,2521318539.5780234,19000000000.0,13.270097576726439,INDUSTRY EST: 10-Oct-2025 ~$19B CEX-perp cascade (largest)

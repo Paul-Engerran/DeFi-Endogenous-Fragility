@@ -1,0 +1,32 @@
+{
+  "script": "scripts/aux/run_block_sensitivity.py",
+  "purpose": "Block-size sensitivity (12/24/36/48h) of the alpha=0.01 exceedance tail inference \u2014 the MDE-critical objects.",
+  "alpha": 0.01,
+  "horizons": [
+    0,
+    1,
+    3,
+    6,
+    12,
+    24
+  ],
+  "blocks": [
+    12,
+    24,
+    36,
+    48
+  ],
+  "n_boot": 1000,
+  "seed": 42,
+  "seed_namespace": "run_exceedance TEST_IDs verbatim -> block=24 rows reproduce exceedance_results/paired exactly",
+  "thresholds": {
+    "q_lo": -2.460917754574586,
+    "q_hi": 2.3342584636399035
+  },
+  "estimator": "per-period LPM, 7 NB07 regressors (run_exceedance verbatim)",
+  "mde80_def": "2.8 * (ci_hi - ci_lo) / 3.92",
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "run_timestamp_utc": "2026-07-02T18:53:11.742751+00:00",
+  "python_version": "3.12.3",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

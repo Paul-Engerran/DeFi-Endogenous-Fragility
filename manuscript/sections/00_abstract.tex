@@ -1,0 +1,27 @@
+\begin{abstract}
+\noindent
+Decentralized-finance (DeFi) liquidations record forced deleveraging
+transaction by transaction in public data (a granularity unavailable in
+centralized venues, where such deleveraging is essentially unobservable).
+The leverage-cycle literature predicts that such forced selling should
+amplify downside tail risk. We test this prediction for Ethereum (ETH)
+using quantile local projections on \Nobs{} hourly observations (2021--2025).
+A naive specification appears to confirm it: the response of the first return
+percentile to a liquidation shock is roughly \RatioTailMedImpact$\times$ the
+median response on impact, deepens with the horizon, and survives
+conventional robustness checks with Bonferroni correction in full. A battery of
+diagnostics overturns this reading. A symmetric sign-flip placebo reproduces
+the entire left--right tail gap at every horizon; the response is equally
+strong in the \emph{upper} tail; the same signature appears when Bitcoin is
+substituted as the outcome (at $\BtcOverEthHtwelve$--$\BtcOverEthHzero\times$ the magnitude); and dual
+permutation nulls show the long-horizon coefficient is genuine rather than a
+mechanical artifact of overlapping cumulative returns. Net of volatility, an
+equivalence test \emph{bounds} the downside-specific tail-violation asymmetry, at the one-percent tail, below economically negligible thresholds under all but the strictest calibration of the single detectable residual. What survives is a
+\emph{symmetric} volatility channel: liquidations carry out-of-sample
+predictive content for both moderate return tails at short horizons, incremental to a
+nested quantile benchmark though not a substitute for a dedicated volatility
+model.
+The exercise yields a portable methodological caution. In quantile local
+projections on overlapping cumulative returns, symmetric heteroskedasticity
+masquerades as downside fragility.
+\end{abstract}

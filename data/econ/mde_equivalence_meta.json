@@ -1,0 +1,282 @@
+{
+  "test": "MDE + equivalence (TOST) for downside-asymmetry objects (A5/A9)",
+  "what_this_does": "Converts the symmetry/skew nulls from 'failed to reject' into quantified statements: the smallest effect each test could detect (MDE) and whether the data actively bound the effect below a pre-registered negligibility threshold (TOST equivalence).",
+  "derived_not_reestimated": "Point estimates and CIs are read from exceedance_paired.csv and skew_test.csv; SE is inferred from each CI half-width / z_{0.975} so MDE/TOST are exactly consistent with the published intervals.",
+  "objects": {
+    "exceedance_delta": "beta_down - beta_up at alpha in [0.1, 0.05, 0.01], horizon h=0 (per-period downside whisper; from exceedance_paired.csv).",
+    "skew_test": "beta_shock at measures ['skew_tail05', 'skew_tail01', 'z3_winsor'] (from skew_test.csv); skew_tail05/01 are tail-probability (down-up) effects [SESOI applies], z3_winsor is a third-moment response [SESOI N/A-UNITS]."
+  },
+  "formulas": {
+    "se_from_ci": "SE = (ci_hi - ci_lo) / 2 / z_{1-alpha/2}",
+    "mde": "MDE = (z_{1-alpha/2} + z_power) * SE  (native units)",
+    "ci90_for_tost": "estimate +/- z_{0.95} * SE",
+    "alpha_test": 0.05,
+    "z_{1-alpha/2}": 1.959963984540054,
+    "z_power_default": 0.8416212335729143,
+    "power_default": 0.8,
+    "power_also_reported": 0.5,
+    "mde_50_meaning": "power=0.50 => z_power=0 => MDE = z_{1-alpha/2}*SE = CI half-width (smallest 'just-significant' effect)."
+  },
+  "sesoi": {
+    "locked_definition": "Smallest-effect-size-of-interest = a down-minus-up tail-PROBABILITY gap of 1 percentage point (0.01).",
+    "rationale": "The economic claim under test is 'no NEGLIGIBLE-or-larger downside-specific amplification'. A 1pp gap in tail-violation probability between the down and up sides is the smallest down/up asymmetry an investor/risk-manager would plausibly care about; anything smaller is economically indistinguishable from symmetry. Object betas are per-unit-shock, so the gap is mapped to beta-units via the shock's empirical span.",
+    "mapping": "SESOI_beta = 0.01 / Delta_log_liq",
+    "delta_log_liq_three_ways": {
+      "iqr": {
+        "value": 2.60837937396318,
+        "definition": "p75 - p25 of in-sample shock"
+      },
+      "p50p95": {
+        "value": 9.161316931914039,
+        "definition": "q95 - q50 of in-sample shock"
+      },
+      "p10p90": {
+        "value": 7.091358930832038,
+        "definition": "q90 - q10 of in-sample shock"
+      }
+    },
+    "sesoi_beta_three_ways": {
+      "iqr": 0.003833798142946502,
+      "p50p95": 0.0010915461253353605,
+      "p10p90": 0.0014101669507267049
+    },
+    "shock_quantiles_in_sample": {
+      "0.1": 0.0,
+      "0.25": 0.0,
+      "0.5": 0.0,
+      "0.75": 2.60837937396318,
+      "0.9": 7.091358930832038,
+      "0.95": 9.161316931914039
+    },
+    "n_shock": 40582,
+    "zero_inflation": "shock = log_liq.shift(1) is zero-inflated; in-sample p10=p25=p50=0, so IQR==p75, p50->p95==p95, p10->p90==p90. Spans reported as-is.",
+    "span_direction_note": "Smaller span => larger (more permissive) SESOI_beta; larger span => smaller (stricter) SESOI_beta. Verdicts reported under all three so the conclusion's sensitivity to the span choice is transparent.",
+    "shock": "log_liq.shift(1) on the build_df_est_raw estimation sample (same regressor & sample as the exceedance / skew tests)."
+  },
+  "tost_logic": {
+    "hypotheses": "H0: |effect| >= SESOI_beta  vs  H1: |effect| < SESOI_beta",
+    "rule": "EQUIVALENT iff 90% CI subset of (-SESOI_beta, +SESOI_beta)",
+    "verdicts": {
+      "EQUIVALENT-TO-NEGLIGIBLE": "90% CI strictly inside the band.",
+      "NON-NEGLIGIBLE": "90% CI entirely beyond the band on one side (lo90 >= +SESOI or hi90 <= -SESOI).",
+      "INCONCLUSIVE": "90% CI straddles a band edge.",
+      "N/A-UNITS": "object's units are not a tail probability; SESOI mapping does not apply (z3_winsor)."
+    }
+  },
+  "honest_power_caveat": "If MDE@power > SESOI_beta for an object/span, the design is UNDERPOWERED for strict equivalence there: a non-significant result supports only 'we exclude effects larger than MDE', NOT 'the effect is proven negligible'. Recorded per object/span as underpowered_for_equivalence. INCONCLUSIVE + underpowered=True is the canonical 'absence of evidence is not evidence of absence' case.",
+  "per_object": [
+    {
+      "object": "exceedance_delta",
+      "alpha_or_measure": "alpha=0.1 (h=0)",
+      "estimate": -0.0012020461753047,
+      "ci_lo_reported": -0.0028321109274806,
+      "ci_hi_reported": 0.0003955016247432,
+      "se_inferred": 0.0008233856789417551,
+      "mde_50": 0.0016138062761119,
+      "mde_80_at_power": 0.0023067851469291316,
+      "ci90_lo": -0.002556395095691946,
+      "ci90_hi": 0.00015230274508254622,
+      "units": "tail_probability_gap_per_log_liq",
+      "sesoi_applies": true,
+      "by_span": {
+        "iqr": {
+          "sesoi_beta": 0.003833798142946502,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.00230679 <= 0.0038338): adequately powered to adjudicate equivalence at this span."
+        },
+        "p50p95": {
+          "sesoi_beta": 0.0010915461253353605,
+          "verdict": "INCONCLUSIVE",
+          "underpowered_for_equivalence": true,
+          "underpowered_note": "MDE@power > SESOI_beta (0.00230679 > 0.00109155): underpowered; can only claim 'exclude effects > 0.00230679', NOT 'proven negligible'."
+        },
+        "p10p90": {
+          "sesoi_beta": 0.0014101669507267049,
+          "verdict": "INCONCLUSIVE",
+          "underpowered_for_equivalence": true,
+          "underpowered_note": "MDE@power > SESOI_beta (0.00230679 > 0.00141017): underpowered; can only claim 'exclude effects > 0.00230679', NOT 'proven negligible'."
+        }
+      }
+    },
+    {
+      "object": "exceedance_delta",
+      "alpha_or_measure": "alpha=0.05 (h=0)",
+      "estimate": 0.0003401960434291,
+      "ci_lo_reported": -0.0008018284968713,
+      "ci_hi_reported": 0.0015861314853172,
+      "se_inferred": 0.0006091846587550648,
+      "mde_50": 0.00119397999109425,
+      "mde_80_at_power": 0.0017066827350693825,
+      "ci90_lo": -0.0006618235520073634,
+      "ci90_hi": 0.0013422156388655634,
+      "units": "tail_probability_gap_per_log_liq",
+      "sesoi_applies": true,
+      "by_span": {
+        "iqr": {
+          "sesoi_beta": 0.003833798142946502,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.00170668 <= 0.0038338): adequately powered to adjudicate equivalence at this span."
+        },
+        "p50p95": {
+          "sesoi_beta": 0.0010915461253353605,
+          "verdict": "INCONCLUSIVE",
+          "underpowered_for_equivalence": true,
+          "underpowered_note": "MDE@power > SESOI_beta (0.00170668 > 0.00109155): underpowered; can only claim 'exclude effects > 0.00170668', NOT 'proven negligible'."
+        },
+        "p10p90": {
+          "sesoi_beta": 0.0014101669507267049,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": true,
+          "underpowered_note": "MDE@power > SESOI_beta (0.00170668 > 0.00141017): underpowered; can only claim 'exclude effects > 0.00170668', NOT 'proven negligible'."
+        }
+      }
+    },
+    {
+      "object": "exceedance_delta",
+      "alpha_or_measure": "alpha=0.01 (h=0)",
+      "estimate": 0.0005288825864826,
+      "ci_lo_reported": -6.355976404845918e-05,
+      "ci_hi_reported": 0.0012548277617314,
+      "se_inferred": 0.00033632952854724163,
+      "mde_50": 0.0006591937628899296,
+      "mde_80_at_power": 0.0009422558355928558,
+      "ci90_lo": -2.433025839920918e-05,
+      "ci90_hi": 0.001082095431364409,
+      "units": "tail_probability_gap_per_log_liq",
+      "sesoi_applies": true,
+      "by_span": {
+        "iqr": {
+          "sesoi_beta": 0.003833798142946502,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.000942256 <= 0.0038338): adequately powered to adjudicate equivalence at this span."
+        },
+        "p50p95": {
+          "sesoi_beta": 0.0010915461253353605,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.000942256 <= 0.00109155): adequately powered to adjudicate equivalence at this span."
+        },
+        "p10p90": {
+          "sesoi_beta": 0.0014101669507267049,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.000942256 <= 0.00141017): adequately powered to adjudicate equivalence at this span."
+        }
+      }
+    },
+    {
+      "object": "skew_test",
+      "alpha_or_measure": "skew_tail05",
+      "estimate": 0.0004291037717763,
+      "ci_lo_reported": -0.0007493517013446,
+      "ci_hi_reported": 0.001577837350287,
+      "se_inferred": 0.0005936815854750828,
+      "mde_50": 0.0011635945258158,
+      "mde_80_at_power": 0.0016632495541328628,
+      "ci90_lo": -0.0005474155373466904,
+      "ci90_hi": 0.0014056230808992902,
+      "units": "tail_probability_gap_per_log_liq",
+      "sesoi_applies": true,
+      "by_span": {
+        "iqr": {
+          "sesoi_beta": 0.003833798142946502,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.00166325 <= 0.0038338): adequately powered to adjudicate equivalence at this span."
+        },
+        "p50p95": {
+          "sesoi_beta": 0.0010915461253353605,
+          "verdict": "INCONCLUSIVE",
+          "underpowered_for_equivalence": true,
+          "underpowered_note": "MDE@power > SESOI_beta (0.00166325 > 0.00109155): underpowered; can only claim 'exclude effects > 0.00166325', NOT 'proven negligible'."
+        },
+        "p10p90": {
+          "sesoi_beta": 0.0014101669507267049,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": true,
+          "underpowered_note": "MDE@power > SESOI_beta (0.00166325 > 0.00141017): underpowered; can only claim 'exclude effects > 0.00166325', NOT 'proven negligible'."
+        }
+      }
+    },
+    {
+      "object": "skew_test",
+      "alpha_or_measure": "skew_tail01",
+      "estimate": 0.0007095009285964,
+      "ci_lo_reported": 0.0001804467106742,
+      "ci_hi_reported": 0.0012644741801209,
+      "se_inferred": 0.0002765427012938428,
+      "mde_50": 0.00054201373472335,
+      "mde_80_at_power": 0.00077475794412186,
+      "ci90_lo": 0.00025462866336626515,
+      "ci90_hi": 0.001164373193826535,
+      "units": "tail_probability_gap_per_log_liq",
+      "sesoi_applies": true,
+      "by_span": {
+        "iqr": {
+          "sesoi_beta": 0.003833798142946502,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.000774758 <= 0.0038338): adequately powered to adjudicate equivalence at this span."
+        },
+        "p50p95": {
+          "sesoi_beta": 0.0010915461253353605,
+          "verdict": "INCONCLUSIVE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.000774758 <= 0.00109155): adequately powered to adjudicate equivalence at this span."
+        },
+        "p10p90": {
+          "sesoi_beta": 0.0014101669507267049,
+          "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+          "underpowered_for_equivalence": false,
+          "underpowered_note": "MDE@power <= SESOI_beta (0.000774758 <= 0.00141017): adequately powered to adjudicate equivalence at this span."
+        }
+      }
+    },
+    {
+      "object": "skew_test",
+      "alpha_or_measure": "z3_winsor",
+      "estimate": -0.029295377763091,
+      "ci_lo_reported": -0.0439136343396294,
+      "ci_hi_reported": -0.014793929517444,
+      "se_inferred": 0.007428632630976364,
+      "mde_50": 0.0145598524110927,
+      "mde_80_at_power": 0.02081194736973503,
+      "ci90_lo": -0.041514391089442534,
+      "ci90_hi": -0.01707636443673947,
+      "units": "conditional_third_moment_response_per_log_liq",
+      "sesoi_applies": false,
+      "by_span": {
+        "iqr": {
+          "sesoi_beta": null,
+          "verdict": "N/A-UNITS",
+          "underpowered_for_equivalence": null,
+          "underpowered_note": null
+        },
+        "p50p95": {
+          "sesoi_beta": null,
+          "verdict": "N/A-UNITS",
+          "underpowered_for_equivalence": null,
+          "underpowered_note": null
+        },
+        "p10p90": {
+          "sesoi_beta": null,
+          "verdict": "N/A-UNITS",
+          "underpowered_for_equivalence": null,
+          "underpowered_note": null
+        }
+      }
+    }
+  ],
+  "inputs": {
+    "exceedance_paired_csv": "data/econ/exceedance_paired.csv",
+    "skew_test_csv": "data/econ/skew_test.csv",
+    "note": "SE inferred from these CSVs' CIs; smoke CIs => smoke SE/MDE."
+  },
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "run_timestamp_utc": "2026-07-02T18:41:53.596218+00:00",
+  "python_version": "3.12.3",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

@@ -1,0 +1,39 @@
+{
+  "script": "scripts/aux/run_descriptive_stats.py",
+  "purpose": "Re-executable provenance for every Table-1 / \u00a74 descriptive number (supersedes the notebook-only computation of notebooks/09_descriptive_stats.ipynb).",
+  "sample": "after-warmup estimation panel from src.estimation.build_df_est_raw (warmup = max(vol_window, 720) + max(lp_horizons) + 2)",
+  "definitions": {
+    "skew": "pandas Series.skew() \u2014 bias-adjusted sample skewness",
+    "excess_kurt": "pandas Series.kurt() \u2014 sample EXCESS kurtosis (normal=0)",
+    "tail_asymmetry": "FAR-EXTREME COUNTS at ABSOLUTE thresholds on one-hour returns in percent: n_below_minus5 = #{ret <= -5%}, n_above_plus5 = #{ret >= +5%} (idem \u00b17%); ratio_farX = left/right count ratio. NOT the 1%/5% quantile values \u2014 those are reported as q_ratio_p1_p99 = |p1|/p99 and q_ratio_p5_p95 = |p5|/p95 and are nearly symmetric (~1.05/~1.01). The paper's 'left \u2248 2\u00d7 right' is the COUNT ratio at \u00b15%/\u00b17%, and must be labelled as such.",
+    "z3": "z_t = ret_eth_perp_t / vol_eth_7d_t (vol_eth_7d = 168h rolling std, predetermined control of the locked spec). z3_mean_winsor winsorises z two-sided at its 1%/99% quantiles before cubing (same de-fattening convention as run_skew_test).",
+    "liq_crosstab": "P(log_liq_t > 0 | ret_t in tail), CONTEMPORANEOUS hour t (not the lagged shock): worst1 = {ret <= p1(ret)}, best1 = {ret >= p99(ret)} (idem 5%). This is the crash\u2192liquidation reverse-causality stylised fact."
+  },
+  "expected_anchors": {
+    "skew_ret_eth": -0.63,
+    "excess_kurt_ret_eth": 17.6,
+    "far5_counts": [
+      50,
+      25
+    ],
+    "far7_counts": [
+      13,
+      6
+    ],
+    "q_ratio_p1_p99": 1.05,
+    "min_max": [
+      -15.5,
+      9.2
+    ],
+    "p_liq_worst1_best1_all": [
+      85,
+      42,
+      27
+    ]
+  },
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "n_after_warmup": 40582,
+  "run_timestamp_utc": "2026-07-02T18:22:44.137432+00:00",
+  "python_version": "3.12.3",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

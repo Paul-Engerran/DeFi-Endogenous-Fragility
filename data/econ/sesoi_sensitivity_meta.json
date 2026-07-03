@@ -1,0 +1,135 @@
+{
+  "script": "scripts/aux/run_sesoi_sensitivity.py",
+  "purpose": "Continuous SESOI sensitivity of the TOST equivalence verdict for the two probability-unit downside-asymmetry objects (exceedance Delta@1% h=0, skew_tail01). Descriptive post-processor over mde_equivalence.csv \u2014 NO re-estimation, NO DGP, no canonical CSV overwritten.",
+  "paper_section": "7.3(iii)",
+  "method": {
+    "se_recovery": "SE = published `se` col (cross-checked vs mde_50/z975)",
+    "verdict_rule": "VERBATIM run_mde_equivalence.tost_verdict: EQUIVALENT iff [est-z95*SE, est+z95*SE] subset (-S,+S); NON-NEGLIGIBLE iff lo90>=S or hi90<=-S; else INCONCLUSIVE",
+    "closed_form_boundary": "S_equiv* = max(hi90,-lo90) = est+z95*SE (est>0); S_nonneg* = lo90 if lo90>0 else none",
+    "z95": 1.6448536269514722,
+    "z975": 1.959963984540054,
+    "alpha_test": 0.05
+  },
+  "objects": [
+    {
+      "object": "exceedance_delta",
+      "label": "alpha=0.01 (h=0)",
+      "tag": "exc_delta_a01_h0",
+      "estimate": 0.0005288825864826,
+      "se": 0.0003363295285472,
+      "lo90": -2.433025839914066e-05,
+      "hi90": 0.0010820954313643404,
+      "s_equiv_star": 0.0010820954313643404,
+      "s_nonneg_star": null,
+      "s_equiv_star_formula": "max(hi90, -lo90) = est + z_{0.95}*SE for est>0",
+      "interpretation": "EQUIVALENT-TO-NEGLIGIBLE for every SESOI > 0.0010821; INCONCLUSIVE below it.",
+      "canonical_span_markers": {
+        "p50p95_strict": {
+          "sesoi_beta": 0.0010915461253353,
+          "verdict_canonical_csv": "EQUIVALENT-TO-NEGLIGIBLE",
+          "verdict_recomputed": "EQUIVALENT-TO-NEGLIGIBLE"
+        },
+        "p10p90": {
+          "sesoi_beta": 0.0014101669507267,
+          "verdict_canonical_csv": "EQUIVALENT-TO-NEGLIGIBLE",
+          "verdict_recomputed": "EQUIVALENT-TO-NEGLIGIBLE"
+        },
+        "iqr": {
+          "sesoi_beta": 0.0038337981429465,
+          "verdict_canonical_csv": "EQUIVALENT-TO-NEGLIGIBLE",
+          "verdict_recomputed": "EQUIVALENT-TO-NEGLIGIBLE"
+        }
+      }
+    },
+    {
+      "object": "skew_test",
+      "label": "skew_tail01",
+      "tag": "skew_tail01",
+      "estimate": 0.0007095009285964,
+      "se": 0.0002765427012938,
+      "lo90": 0.0002546286633663355,
+      "hi90": 0.0011643731938264647,
+      "s_equiv_star": 0.0011643731938264647,
+      "s_nonneg_star": 0.0002546286633663355,
+      "s_equiv_star_formula": "max(hi90, -lo90) = est + z_{0.95}*SE for est>0",
+      "interpretation": "EQUIVALENT-TO-NEGLIGIBLE for every SESOI > 0.00116437; INCONCLUSIVE below it; NON-NEGLIGIBLE below 0.000254629.",
+      "canonical_span_markers": {
+        "p50p95_strict": {
+          "sesoi_beta": 0.0010915461253353,
+          "verdict_canonical_csv": "INCONCLUSIVE",
+          "verdict_recomputed": "INCONCLUSIVE"
+        },
+        "p10p90": {
+          "sesoi_beta": 0.0014101669507267,
+          "verdict_canonical_csv": "EQUIVALENT-TO-NEGLIGIBLE",
+          "verdict_recomputed": "EQUIVALENT-TO-NEGLIGIBLE"
+        },
+        "iqr": {
+          "sesoi_beta": 0.0038337981429465,
+          "verdict_canonical_csv": "EQUIVALENT-TO-NEGLIGIBLE",
+          "verdict_recomputed": "EQUIVALENT-TO-NEGLIGIBLE"
+        }
+      }
+    }
+  ],
+  "grid": {
+    "s_min": 1.91689907147325e-05,
+    "s_max": 0.015335192571786,
+    "n_grid_effective": 406,
+    "log_spaced": true,
+    "exact_nodes_injected": [
+      0.0002546286633663355,
+      0.0010820954313643404,
+      0.0010915461253353,
+      0.0010915461253353,
+      0.0011643731938264647,
+      0.0014101669507267,
+      0.0014101669507267,
+      0.0038337981429465,
+      0.0038337981429465
+    ]
+  },
+  "figure_spec": {
+    "id": "fig_A4_sesoi_sensitivity",
+    "title": "SESOI sensitivity of the equivalence verdict",
+    "panels": 1,
+    "x_axis": {
+      "var": "sesoi",
+      "label": "SESOI S (beta units)",
+      "scale": "log"
+    },
+    "series_per_object": [
+      {
+        "object": "exceedance_delta",
+        "label": "alpha=0.01 (h=0)",
+        "verdict_ribbon": "colour grid rows by `verdict` along S (INCONCLUSIVE left of S_equiv*, EQUIVALENT right)",
+        "vline_solid_at": 0.0010820954313643404,
+        "vline_label": "S_equiv*=0.00108 (=hi90)"
+      },
+      {
+        "object": "skew_test",
+        "label": "skew_tail01",
+        "verdict_ribbon": "colour grid rows by `verdict` along S (INCONCLUSIVE left of S_equiv*, EQUIVALENT right)",
+        "vline_solid_at": 0.0011643731938264647,
+        "vline_label": "S_equiv*=0.00116 (=hi90)"
+      }
+    ],
+    "reference_vlines_dashed": {
+      "p50p95_strict": 0.0010915461253353,
+      "p10p90": 0.0014101669507267,
+      "iqr": 0.0038337981429465
+    },
+    "caption": "Equivalence verdict (TOST, 90% CI vs +/-S band) as a continuous function of the SESOI S, for the per-period 1% exceedance Delta (h=0) and the whisper (skew_tail01). Solid lines mark each object's flip threshold S_equiv* = est + z_{0.95}*SE. Dashed lines mark the three locked shock-span calibrations. The exceedance Delta is EQUIVALENT-TO-NEGLIGIBLE at all three; the whisper is EQUIVALENT for every S above its S_equiv*, with the single strict span (p50->p95) the only calibration leaving it INCONCLUSIVE.",
+    "plot_from": "data/econ/sesoi_sensitivity.csv (+ meta boundaries)",
+    "lands_in": "\u00a77.3(iii) footnote / Appendix A"
+  },
+  "non_confirmatory_branch_outcome": "If any TARGET object's S_equiv* exceeded the LARGEST canonical span (iqr), the whisper would be inconclusive even at the most permissive locked bound => a residual downside asymmetry that survives every pre-registered SESOI; that would be REPORTED as a qualification of the bounded-null claim, not buried. Observed: both S_equiv* fall at or below the iqr span (exceedance below all three; skew_tail01 above only the strict p50p95), consistent with the bounded-negligible thesis. Recorded per object in objects[].interpretation.",
+  "inputs": {
+    "mde_equivalence_csv": "data/econ/mde_equivalence.csv",
+    "note": "READ-ONLY; this script writes only NEW sesoi_sensitivity.* files and never modifies a canonical artefact."
+  },
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "run_timestamp_utc": "2026-06-17T16:23:24.329646+00:00",
+  "python_version": "3.9.6",
+  "platform": "macOS-14.8.7-x86_64-i386-64bit"
+}

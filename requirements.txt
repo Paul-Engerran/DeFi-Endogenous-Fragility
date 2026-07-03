@@ -1,0 +1,36 @@
+# Direct dependencies — pinned versions.
+# CANONICAL platform: Linux x86_64 / Python 3.12 (the committed data/econ
+# artefacts were produced there; see README §4 and docs/DATA_STATUS.md).
+# macOS x86_64 / Python 3.12 reproduces the point estimates bit-for-bit;
+# bootstrap statistics drift sub-bp cross-platform. Apple Silicon (M-series)
+# is untested.
+# See requirements-frozen.txt for the full transitive resolution.
+
+pandas==2.2.2
+numpy==1.26.4
+pyarrow==14.0.2
+statsmodels==0.14.2
+scipy==1.13.1
+joblib==1.4.2
+arch==7.2.0
+matplotlib==3.10.9
+jupyter==1.1.1
+ipykernel==7.2.0
+requests==2.33.1
+pytest>=7   # test runner only; excluded from requirements-frozen.txt (the frozen file is the results-pipeline closure)
+
+# Notes for reproducibility:
+# - pandas 2.2.x is required (3.x introduces breaking changes in
+#   copy-on-write semantics and infer_objects).
+# - numpy 1.26.x is the validated line (2.x compatible but untested).
+# - pyarrow 14.x matches the validation environment; pyarrow >=17 is
+#   declared compatible upstream but not exercised here.
+# - arch 7.2.0 is required by scripts/aux/run_placebo_symmetric.py
+#   for the GARCH(1,1) volatility spec; the canonical batch (`make canonical`)
+#   fits GARCH, so this pin is mandatory on the VM. arch 7.2.x is the validated
+#   line (also pinned in requirements-frozen.txt).
+# - matplotlib / jupyter / ipykernel / requests are pinned to the
+#   pip-resolved versions; they are not numerically sensitive
+#   (figures, notebook execution, archived data downloaders).
+# - Tested on macOS / Python 3.12.2. For Linux equivalent versions,
+#   see requirements-frozen.txt or regenerate from a clean venv.

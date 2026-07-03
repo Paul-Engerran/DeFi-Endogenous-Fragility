@@ -1,0 +1,481 @@
+{
+  "script": "scripts/aux/run_positive_control.py",
+  "purpose": "DGP #2 positive control: plant a TRUE, calibrated downside cascade and verify the diagnostic battery detects it (power curve below/at/above the MDE-to-SESOI scale).",
+  "flagged_robustness": true,
+  "touches_canonical": false,
+  "dgp": {
+    "null": "r0 = m_t + sign_t*|resid_t| (placebo sign-flip; zero planted asymmetry \u2014 the comparison null)",
+    "plant": "down-only shock-driven cascade: hazard p_t = clip(gamma*shock_t/span, 0, P_MAX); on trigger subtract kick*|z_t| (half-normal). Displacement ALWAYS negative; hazard depends ONLY on the shock => raises P(down-viol|shock), leaves P(up-viol|shock) unchanged.",
+    "p_max": 0.6,
+    "kick": 2.0,
+    "mean_shock_coef": 0.00013949947324298737,
+    "n_mask": 40582,
+    "shock_span_p50p95": 9.161316931914039,
+    "tail_thresholds": {
+      "alpha": 0.01,
+      "q_lo": -2.460917754574586,
+      "q_hi": 2.3342584636399035
+    },
+    "kick_capping_fix3": "Triggered (cascade) returns are CLIPPED into ret_support_mult x [min,max] of the REAL in-sample ETH per-period return series, so the tau=0.01 QuantReg is not driven by gross out-of-support outliers (which blew the placebo gap_plant up to ~0.174 and caused non-convergence at mult=2.0). Only the LOWER edge bites (the kick is always negative), so the one-sided cascade / sigma-cancellation logic is preserved; gamma is re-calibrated against the capped plant. The extreme-tau QLP point fits use POINT_MAX_ITER=20000 so the gap is a converged estimate. Each object's induced effect is reported on its OWN native scale (placebo gap, exceedance Delta, skew beta).",
+    "ret_support": {
+      "real_ret_min": -15.462208483716644,
+      "real_ret_max": 9.173175770063313,
+      "ret_support_mult": 1.0,
+      "clip_lo": -15.462208483716644,
+      "clip_hi": 9.173175770063313
+    },
+    "predetermined_controls_fix4a": "vol_eth_7d (the conditional-vol standardizer in the skew object z=ret/vol_eth_7d) is INTENTIONALLY PREDETERMINED \u2014 it is taken from the FROZEN panel and is NOT recomputed from the planted LHS. This matches the canonical run_skew_test convention (it standardizes by the realised conditional vol, not a re-estimated one). Directional implication: because the planted down-cascade INCREASES |ret| on triggered down dates while vol_eth_7d is held fixed, the standardized z is pushed further into the LEFT tail than a recomputed-vol standardizer would allow \u2014 i.e. the skew object's response is, if anything, a MILD UPPER BOUND on the genuine-skew signal, not an understatement. The skew object is SUPPORTING evidence only, so this does not affect the mde_tost power decision."
+  },
+  "calibration": {
+    "rule": "gamma chosen by bisection so mean induced point Delta (exceedance beta_down-beta_up, alpha=0.01, h=0) over n_calib null draws == mult * SESOI_anchor.",
+    "sesoi_anchor_key": "sesoi_beta_p50p95",
+    "sesoi_anchor_value": 0.0010915461253353,
+    "mde80_exceedance_delta": 0.0009422558355928,
+    "anchor_source": {
+      "source": "data/econ/mde_equivalence.csv",
+      "sesoi_anchor": 0.0010915461253353,
+      "mde80": 0.0009422558355928,
+      "from_csv": true
+    },
+    "n_calib": 120,
+    "traces": {
+      "0.5": {
+        "target": 0.00054577306266765,
+        "kick": 2.0,
+        "gamma_final": 0.00014648437500000002,
+        "bracket_hi": 0.0001953125,
+        "n_calib": 120,
+        "trace_tail": [
+          {
+            "gamma": 0.003125,
+            "delta": 0.0006784664452065885
+          },
+          {
+            "gamma": 0.0015625,
+            "delta": 0.0005885761074172508
+          },
+          {
+            "gamma": 0.00078125,
+            "delta": 0.0006313119384838048
+          },
+          {
+            "gamma": 0.000390625,
+            "delta": 0.0005583120599366614
+          },
+          {
+            "gamma": 0.0001953125,
+            "delta": 0.0006049635347405521
+          },
+          {
+            "gamma": 9.765625e-05,
+            "delta": 0.0005457423950001439
+          }
+        ],
+        "ret_clip": [
+          -15.462208483716644,
+          9.173175770063313
+        ]
+      },
+      "1.0": {
+        "target": 0.0010915461253353,
+        "kick": 2.0,
+        "gamma_final": 0.015625,
+        "bracket_hi": 0.018750000000000003,
+        "n_calib": 120,
+        "trace_tail": [
+          {
+            "gamma": 0.0,
+            "delta": 0.0005503786528616831
+          },
+          {
+            "gamma": 0.05,
+            "delta": 0.0019760424281245947
+          },
+          {
+            "gamma": 0.025,
+            "delta": 0.0012184070881884482
+          },
+          {
+            "gamma": 0.0125,
+            "delta": 0.0009175247091689143
+          },
+          {
+            "gamma": 0.018750000000000003,
+            "delta": 0.0010939427620855196
+          }
+        ],
+        "ret_clip": [
+          -15.462208483716644,
+          9.173175770063313
+        ]
+      },
+      "2.0": {
+        "target": 0.0021830922506706,
+        "kick": 2.0,
+        "gamma_final": 0.0587890625,
+        "bracket_hi": 0.058984375,
+        "n_calib": 120,
+        "trace_tail": [
+          {
+            "gamma": 0.0625,
+            "delta": 0.0022813506060328686
+          },
+          {
+            "gamma": 0.05625,
+            "delta": 0.002074736104091661
+          },
+          {
+            "gamma": 0.059375,
+            "delta": 0.0022368340760359354
+          },
+          {
+            "gamma": 0.0578125,
+            "delta": 0.0021307781993492795
+          },
+          {
+            "gamma": 0.05859375,
+            "delta": 0.0021135612685980135
+          },
+          {
+            "gamma": 0.058984375,
+            "delta": 0.002192654024874524
+          }
+        ],
+        "ret_clip": [
+          -15.462208483716644,
+          9.173175770063313
+        ]
+      }
+    }
+  },
+  "battery_objects": {
+    "mde_tost": "[POWER OBJECT] run_mde_equivalence TOST on the induced Delta vs the p50->p95 SESOI anchor, using the PER-PANEL block-bootstrap SE; FLAG = verdict NON-NEGLIGIBLE. This is the ONLY object indexed to the SESOI by construction and the SOLE power decision.",
+    "placebo_gap": "[SUPPORTING] QLP |beta(0.01,h)|-|beta(0.99,h)| vs symmetric (null r0) band; flags at every mult>0.",
+    "exceedance_delta": "[SUPPORTING] run_exceedance LPM beta_down-beta_up @alpha=0.01 h=0; across-draw CI excludes 0 at every mult>0 (a calibration consequence, not power).",
+    "skew_tail01": "[SUPPORTING] run_skew_test signed-tail-skew beta_shock @tau=0.01 (scale removed); flags at every mult>0."
+  },
+  "se_methodology_fix1": {
+    "power_object_se": "per-panel moving-block bootstrap (block=24, n_boot=500) of the paired exceedance Delta on a SINGLE representative planted panel per mult \u2014 the SAME engine (src.bootstrap.run_parallel_boot + run_exceedance._one_rep_lpm_pair) the canonical exceedance_paired CI uses.",
+    "why": "This within-panel sampling SE is a property of sample size and block structure, NOT of the simulation budget, so the mde_tost graduation is INVARIANT to n_sim and ANCHORED to the published MDE@80=0.000942256. The old SE (across-draw dispersion of the MEAN Delta over n_sim panels) shrank with n_sim and was ~2x too small; it is retained as mde_tost_mc_calib_check (audit only), never a verdict.",
+    "per_panel_se_by_mult": {
+      "0.5": {
+        "d_point": 0.00026399857843437493,
+        "ci_lo": -0.00027107411319878357,
+        "ci_hi": 0.0008777847541839042,
+        "n_boot_ok": 500,
+        "n_obs": 40582,
+        "block_size": 24
+      },
+      "1.0": {
+        "d_point": 0.0009298381731084785,
+        "ci_lo": 0.0002931335499019363,
+        "ci_hi": 0.001553634204853942,
+        "n_boot_ok": 500,
+        "n_obs": 40582,
+        "block_size": 24
+      },
+      "2.0": {
+        "d_point": 0.002439833946445712,
+        "ci_lo": 0.0017830353477175588,
+        "ci_hi": 0.003076894676829019,
+        "n_boot_ok": 500,
+        "n_obs": 40582,
+        "block_size": 24
+      }
+    }
+  },
+  "detection_rule": "detected_power = (mde_tost verdict == NON-NEGLIGIBLE). The power decision is mde_tost ALONE; placebo/exceedance/skew are SUPPORTING.",
+  "decision_rule": {
+    "pre_registered_ladder": "mde_tost graduates EQUIVALENT-TO-NEGLIGIBLE @ mult=0.5 -> INCONCLUSIVE @ mult=1.0 -> NON-NEGLIGIBLE @ mult=2.0 (detection ON at/above the MDE-to-SESOI scale, OFF below).",
+    "confirmatory": "mde_tost ladder matches the pre-registered shape.",
+    "non_confirmatory_major": "mde_tost stays != NON-NEGLIGIBLE at the largest mult>=2.0 => instrument under-powered; bounded-null claim weakened; REPORTED not buried.",
+    "non_confirmatory_calibration": "mde_tost graduates NON-NEGLIGIBLE for some mult<1.0 => trigger-happy."
+  },
+  "native_scale_by_object_fix3": {
+    "mde_tost": {
+      "native_scale": "tail_probability_per_log_liq",
+      "estimate_by_mult": {
+        "0.5": 0.00026399857843437493,
+        "1.0": 0.0009298381731084785,
+        "2.0": 0.002439833946445712
+      },
+      "proportionality_ratio_by_mult": {
+        "0.5": 0.5678376863187264,
+        "1.0": 1.0,
+        "2.0": 1.3119669728600567
+      },
+      "non_proportional": false,
+      "note": "ratio = (est/est@mult1)/mult; ~1 => proportional to the plant size. Flagged if |ratio-1| > 0.50 for any mult."
+    },
+    "exceedance_delta": {
+      "native_scale": "tail_probability_per_log_liq",
+      "estimate_by_mult": {
+        "0.5": 0.0005396427724366042,
+        "1.0": 0.000987507223828605,
+        "2.0": 0.0021809671508011977
+      },
+      "proportionality_ratio_by_mult": {
+        "0.5": 1.0929393920672044,
+        "1.0": 1.0,
+        "2.0": 1.1042790868635375
+      },
+      "non_proportional": false,
+      "note": "ratio = (est/est@mult1)/mult; ~1 => proportional to the plant size. Flagged if |ratio-1| > 0.50 for any mult."
+    },
+    "skew_tail01": {
+      "native_scale": "scale_removed_tail_probability_per_log_liq",
+      "estimate_by_mult": {
+        "0.5": 0.0008588444162388553,
+        "1.0": 0.001243018260531849,
+        "2.0": 0.0020975544192027035
+      },
+      "proportionality_ratio_by_mult": {
+        "0.5": 1.3818693473921815,
+        "1.0": 1.0,
+        "2.0": 0.8437343544354792
+      },
+      "non_proportional": false,
+      "note": "ratio = (est/est@mult1)/mult; ~1 => proportional to the plant size. Flagged if |ratio-1| > 0.50 for any mult."
+    },
+    "placebo_gap": {
+      "native_scale": "return_units_quantile_gap_per_log_liq",
+      "estimate_by_mult": {
+        "0.5": -0.0004128567256452856,
+        "1.0": 0.04975469515146249,
+        "2.0": 0.17771195129694375
+      },
+      "proportionality_ratio_by_mult": {
+        "0.5": -0.016595689085762595,
+        "1.0": 1.0,
+        "2.0": 1.785881219410105
+      },
+      "non_proportional": true,
+      "note": "ratio = (est/est@mult1)/mult; ~1 => proportional to the plant size. Flagged if |ratio-1| > 0.50 for any mult."
+    }
+  },
+  "branch": "CONFIRMATORY",
+  "branch_message": "The headline mde_tost equivalence test GRADUATES as pre-registered: EQUIVALENT-TO-NEGLIGIBLE below the MDE-to-SESOI scale (mult<1.0), INCONCLUSIVE at it (mult=1.0), NON-NEGLIGIBLE above it (mult>=2.0). Detection switches ON exactly where the SESOI says it should: the all-negative reading on the real data is an informative null, not a dead instrument. (placebo/exceedance/skew are SUPPORTING, always-detect evidence and do not enter this decision.)",
+  "mde_tost_verdict_by_mult": {
+    "0.5": "EQUIVALENT-TO-NEGLIGIBLE",
+    "1.0": "INCONCLUSIVE",
+    "2.0": "NON-NEGLIGIBLE"
+  },
+  "detected_power_by_mult": {
+    "0.5": false,
+    "1.0": false,
+    "2.0": true
+  },
+  "detected_by_mult": {
+    "0.5": false,
+    "1.0": false,
+    "2.0": true
+  },
+  "verdicts": [
+    {
+      "mult": 0.5,
+      "target_delta": 0.00054577306266765,
+      "gamma": 0.00014648437500000002,
+      "supporting_evidence": {
+        "placebo_gap": {
+          "gap_plant": -0.0004128567256452856,
+          "band_lo": -0.01752747571276901,
+          "band_hi": 0.01815674337089969,
+          "flagged": false
+        },
+        "exceedance_delta": {
+          "delta": 0.0005396427724366042,
+          "ci_lo": 4.019423967437605e-05,
+          "ci_hi": 0.0009618312059732311,
+          "flagged": true
+        },
+        "skew_tail01": {
+          "beta": 0.0008588444162388553,
+          "ci_lo": 0.00039111169486695936,
+          "ci_hi": 0.001280864761149032,
+          "flagged": true
+        },
+        "supporting_any": true,
+        "note": "These objects are across-draw-of-a-positive-mean flags: they fire at EVERY mult>0 (a consequence of calibrating the mean positive), so they are SUPPORTING, not power statements. The power decision is mde_tost alone."
+      },
+      "mde_tost": {
+        "se": 0.00029308162712293187,
+        "se_source": "per-panel block-bootstrap (block=24) of the paired exceedance Delta on ONE representative planted draw \u2014 within-panel sampling SE, n_sim-invariant",
+        "delta_point_panel": 0.00026399857843437493,
+        "ci_lo": -0.00027107411319878357,
+        "ci_hi": 0.0008777847541839042,
+        "n_boot_ok": 500,
+        "sesoi_anchor": 0.0010915461253353,
+        "verdict": "EQUIVALENT-TO-NEGLIGIBLE",
+        "flagged": false,
+        "is_power_object": true
+      },
+      "mde_tost_mc_calib_check": {
+        "delta_mean_across_draws": 0.0005396427724366042,
+        "ci_lo": 4.019423967437605e-05,
+        "ci_hi": 0.0009618312059732311,
+        "se_across_draws": 0.0002351157913024448,
+        "note": "across-draw dispersion of the MEAN Delta over n_sim panels; SHRINKS with n_sim, ~2x too small vs the per-panel SE. Reported for audit only \u2014 NOT fed to any verdict."
+      },
+      "detected_power": false,
+      "detected_any": false,
+      "sigma_cancellation_check": {
+        "beta_down_plant": 0.0014408977652986717,
+        "beta_up_plant": 0.0009012549928620674,
+        "beta_up_null": 0.0009014322249644394,
+        "down_side_movement": 0.0014408977652986717,
+        "up_side_drift_vs_null": -1.7723210237201217e-07,
+        "interpretation": "down-only cascade: beta_down carries the induced Delta while beta_up stays at its null level. A symmetric scale change would move both equally and Delta would not budge \u2014 so the plant is a TRUE asymmetry, not a sigma/scale artefact."
+      }
+    },
+    {
+      "mult": 1.0,
+      "target_delta": 0.0010915461253353,
+      "gamma": 0.015625,
+      "supporting_evidence": {
+        "placebo_gap": {
+          "gap_plant": 0.04975469515146249,
+          "band_lo": -0.019636804164457317,
+          "band_hi": 0.016080130989767547,
+          "flagged": true
+        },
+        "exceedance_delta": {
+          "delta": 0.000987507223828605,
+          "ci_lo": 0.00045391276660891914,
+          "ci_hi": 0.0015398117275568577,
+          "flagged": true
+        },
+        "skew_tail01": {
+          "beta": 0.001243018260531849,
+          "ci_lo": 0.0007850197332946244,
+          "ci_hi": 0.001718591638338006,
+          "flagged": true
+        },
+        "supporting_any": true,
+        "note": "These objects are across-draw-of-a-positive-mean flags: they fire at EVERY mult>0 (a consequence of calibrating the mean positive), so they are SUPPORTING, not power statements. The power decision is mde_tost alone."
+      },
+      "mde_tost": {
+        "se": 0.0003215621983094266,
+        "se_source": "per-panel block-bootstrap (block=24) of the paired exceedance Delta on ONE representative planted draw \u2014 within-panel sampling SE, n_sim-invariant",
+        "delta_point_panel": 0.0009298381731084785,
+        "ci_lo": 0.0002931335499019363,
+        "ci_hi": 0.001553634204853942,
+        "n_boot_ok": 500,
+        "sesoi_anchor": 0.0010915461253353,
+        "verdict": "INCONCLUSIVE",
+        "flagged": false,
+        "is_power_object": true
+      },
+      "mde_tost_mc_calib_check": {
+        "delta_mean_across_draws": 0.000987507223828605,
+        "ci_lo": 0.00045391276660891914,
+        "ci_hi": 0.0015398117275568577,
+        "se_across_draws": 0.00027702013136806877,
+        "note": "across-draw dispersion of the MEAN Delta over n_sim panels; SHRINKS with n_sim, ~2x too small vs the per-panel SE. Reported for audit only \u2014 NOT fed to any verdict."
+      },
+      "detected_power": false,
+      "detected_any": false,
+      "sigma_cancellation_check": {
+        "beta_down_plant": 0.0018443437687278752,
+        "beta_up_plant": 0.0008568365448992704,
+        "beta_up_null": 0.0008867047096523987,
+        "down_side_movement": 0.0018443437687278752,
+        "up_side_drift_vs_null": -2.98681647531283e-05,
+        "interpretation": "down-only cascade: beta_down carries the induced Delta while beta_up stays at its null level. A symmetric scale change would move both equally and Delta would not budge \u2014 so the plant is a TRUE asymmetry, not a sigma/scale artefact."
+      }
+    },
+    {
+      "mult": 2.0,
+      "target_delta": 0.0021830922506706,
+      "gamma": 0.0587890625,
+      "supporting_evidence": {
+        "placebo_gap": {
+          "gap_plant": 0.17771195129694375,
+          "band_lo": -0.01940253914763871,
+          "band_hi": 0.016383129050746376,
+          "flagged": true
+        },
+        "exceedance_delta": {
+          "delta": 0.0021809671508011977,
+          "ci_lo": 0.001601661526472543,
+          "ci_hi": 0.0027828086402602774,
+          "flagged": true
+        },
+        "skew_tail01": {
+          "beta": 0.0020975544192027035,
+          "ci_lo": 0.0016240563528782557,
+          "ci_hi": 0.0025675813500519334,
+          "flagged": true
+        },
+        "supporting_any": true,
+        "note": "These objects are across-draw-of-a-positive-mean flags: they fire at EVERY mult>0 (a consequence of calibrating the mean positive), so they are SUPPORTING, not power statements. The power decision is mde_tost alone."
+      },
+      "mde_tost": {
+        "se": 0.00033007222054008586,
+        "se_source": "per-panel block-bootstrap (block=24) of the paired exceedance Delta on ONE representative planted draw \u2014 within-panel sampling SE, n_sim-invariant",
+        "delta_point_panel": 0.002439833946445712,
+        "ci_lo": 0.0017830353477175588,
+        "ci_hi": 0.003076894676829019,
+        "n_boot_ok": 500,
+        "sesoi_anchor": 0.0010915461253353,
+        "verdict": "NON-NEGLIGIBLE",
+        "flagged": true,
+        "is_power_object": true
+      },
+      "mde_tost_mc_calib_check": {
+        "delta_mean_across_draws": 0.0021809671508011977,
+        "ci_lo": 0.001601661526472543,
+        "ci_hi": 0.0027828086402602774,
+        "se_across_draws": 0.0003013185760311088,
+        "note": "across-draw dispersion of the MEAN Delta over n_sim panels; SHRINKS with n_sim, ~2x too small vs the per-panel SE. Reported for audit only \u2014 NOT fed to any verdict."
+      },
+      "detected_power": true,
+      "detected_any": true,
+      "sigma_cancellation_check": {
+        "beta_down_plant": 0.002962333313604902,
+        "beta_up_plant": 0.0007813661628037045,
+        "beta_up_null": 0.0008867555232690828,
+        "down_side_movement": 0.002962333313604902,
+        "up_side_drift_vs_null": -0.00010538936046537836,
+        "interpretation": "down-only cascade: beta_down carries the induced Delta while beta_up stays at its null level. A symmetric scale change would move both equally and Delta would not budge \u2014 so the plant is a TRUE asymmetry, not a sigma/scale artefact."
+      }
+    }
+  ],
+  "sigma_cancellation_self_check": "The plant is a fixed-sign (always-subtract) down-only cascade with a shock-driven one-sided hazard. It is NOT a symmetric rescaling (ret = m +- |resid| would make sigma cancel in Delta = beta_down - beta_up, the trap that voided the earlier placebo). Per-mult the script records beta_down_plant rising with the plant while beta_up_plant stays at its null level (up_side_drift_vs_null ~ 0): the induced Delta is carried entirely by the down side, so the plant GENUINELY differs from the symmetric null it is compared against.",
+  "mults": [
+    0.5,
+    1.0,
+    2.0
+  ],
+  "n_sim": 300,
+  "se_n_boot": 500,
+  "se_boot_block_size": 24,
+  "ret_support_mult": 1.0,
+  "horizons": [
+    0
+  ],
+  "max_iter": 2000,
+  "point_max_iter": 20000,
+  "seed": 42,
+  "n_jobs": -1,
+  "seed_scheme": "calib: default_rng([BASE_SEED, CALIB_TEST_ID, round(mult*1000)]); per-panel SE boot: SeedSequence([BASE_SEED, SE_BOOT_TEST_ID=15302, round(mult*1000), b]); MC: SeedSequence([BASE_SEED, TEST_ID=15301, round(mult*1000), b]) pre-drawn before any parallel dispatch (dispatch-invariant).",
+  "regressors": [
+    "shock",
+    "shock_x_oi_high",
+    "oi_high",
+    "ret_btc_spot",
+    "vol_eth_7d",
+    "funding_rate",
+    "basis_bps"
+  ],
+  "controls": [
+    "ret_btc_spot",
+    "vol_eth_7d",
+    "funding_rate",
+    "basis_bps"
+  ],
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "n_rows_panel": 40582,
+  "run_timestamp_utc": "2026-06-17T23:46:36.018152+00:00",
+  "python_version": "3.9.6",
+  "platform": "macOS-14.8.7-x86_64-i386-64bit"
+}

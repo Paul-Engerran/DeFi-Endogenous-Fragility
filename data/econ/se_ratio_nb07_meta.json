@@ -1,0 +1,12 @@
+{
+  "script": "scripts/aux/recompute_se_ratio_nb07.py",
+  "purpose": "Same-spec (main-table specification) kernel-vs-bootstrap SE ratio at tau=0.01 \u2014 replaces the confounded D1 ratio (Test B: ORTH shock, 5 regressors, vol-normalised LHS) as the citable justification for bootstrap CIs at tail quantiles.",
+  "inputs": {
+    "kernel": "data/econ/quantile_lp_results.csv",
+    "bootstrap_M": "data/econ/robustness_bootstrap_nb07_spec_fast.csv"
+  },
+  "se_boot_def": "(ci_hi - ci_lo) / 3.92 on the Test-M percentile CI",
+  "run_timestamp_utc": "2026-07-02T18:22:45.573824+00:00",
+  "python_version": "3.12.3",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.39"
+}

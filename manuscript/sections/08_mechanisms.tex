@@ -1,0 +1,157 @@
+\section{Mechanisms}
+\label{sec:mechanisms}
+
+Sections~\ref{sec:apparent}--\ref{sec:survives} established an empirical
+fact: net of volatility, observable DeFi liquidations do not amplify ETH's
+downside tail to any economically significant degree. This section
+rationalizes that fact through market structure. The aim is not to
+re-estimate it, but to explain why an economist should not have expected
+otherwise at the observable DeFi scale. The argument is a beam, not a proof.
+No single channel demonstrates the null on its own, and the four are ordered
+by evidentiary weight, from the load-bearing channel (size) to the modifier
+(oracle). Each bounds one link in the hypothetical leverage-cycle chain,
+from liquidation to directional fire sale to permanent price impact to
+aggregate spiral, and the register stays descriptive throughout. The
+liquidation channel is real and locally disruptive. It raises volatility, as
+Section~\ref{sec:volchannel} confirms; it is only too small and too
+efficiently cleared to aggregate into a directional downside loop.
+
+\subsection{Size of the liquidation flow}
+\label{sec:size}
+
+For a liquidation flow to imprint downside amplification on ETH's
+\emph{aggregate} return distribution, it must be material relative to the
+turnover that forms that distribution. It is not. In the normal regime the
+median daily flow is on the order of \SizeMedianShare{} of one percent of
+ETH spot-plus-perpetual turnover (centralized-exchange reported), a rounding error; the mean is
+\SizeShareMean\%; and even the worst day of the entire sample reaches only
+\SizeShareWorstDay\% (Table~\ref{tab:sizeratio}). Against the largest reported single-day
+centralized-exchange liquidation cascade on record, roughly nineteen
+billion dollars on 10 October 2025 \citep{coinglass2025}, the typical
+daily DeFi flow sits four to six orders of magnitude lower, and the
+whole-sample cumulative total amounts to roughly \SizeTotalVsCascade\% of
+that single cascade day. A flow this
+many orders of magnitude below the venue where a reflexive spiral
+plausibly lives (Section~\ref{sec:discussion}) cannot, at the observable
+scale, be a material aggregate contributor to ETH's crash quantile. In
+aggregate-market terms the hourly shock the quantile projection sees is
+negligible, and that is what predicts the null.
+
+\begin{table}[t]
+\centering
+\caption{Size of the DeFi liquidation flow relative to ETH turnover and to
+centralized-exchange cascades.}
+\label{tab:sizeratio}
+\input{../paper/tables/tab5_size_ratio}
+\begin{minipage}{0.92\textwidth}
+\vspace{2pt}
+{\scriptsize \emph{Notes:} Numerator is our measured flow (the hard
+number); denominators are industry turnover estimates
+\citep{coingecko2024annual,coingecko2024perps} and a reported cascade
+magnitude \citep{coinglass2025}, partly inflated by wash trading
+\citep{gan2022} and not peer-reviewed, hence order-of-magnitude bounds. The inequality is wide enough to survive any
+plausible rescaling of the denominator. Source: \texttt{size\_ratio.csv}.}
+\end{minipage}
+\end{table}
+
+The inequality is wide, three to four orders of magnitude, wide enough to
+survive deflating the wash-inflated denominators entirely (the numerator
+is our own hard extraction; the caveat is detailed at the table). The flow
+is also concentrated in a single episode (August 2024). This is why the
+median, not the mean, carries the argument, and why we compare the
+typical flow to a cascade rather than the outlier day to a cascade.
+Agent-based work on DeFi lending finds systemic default rates below a
+tenth of a percent even at ten times observed
+volatility \citep{chaudhary2022},
+and the ecosystem's lending base is itself non-monotone, peaking near
+\$45 billion in late 2021 and falling to roughly \$15 billion by mid-2023
+\citep{bertomeu2024}. ``Small'' is
+not only our empirical finding but what a model of on-chain lending
+predicts under stress.
+
+\subsection{Clearing}
+\label{sec:clearing}
+
+Even a small flow could imprint directionality if it discharged as a fire
+sale, with inventory sold under pressure, in size, into a falling market. The
+architecture of DeFi liquidation rules this out for the modal case.
+Liquidations are absorbed by well-incentivized liquidators
+\citep{qin2021}; over seventy percent of liquidable positions are
+liquidated immediately, and eighty-five percent of liquidable collateral
+clears within two blocks \citep{perez2021}, leaving no overhang to drain
+gradually into the price. And the modal liquidation is not a crash but a
+drift in position health. \citet{moallemi2024} document that over
+seventy percent of liquidations occur in the absence of any downward price
+jump. The central mode of DeFi liquidation is non-directional; the
+directional episodes are the tail, not the body. Toxic liquidation spirals
+do exist as a mechanism \citep{warmuz2022},
+but they are a conditional tail phenomenon (illiquid collateral, deep
+undercollateralization), not the modal case, and they do not contradict
+the rapid clearing of the typical liquidation.
+
+\subsection{Absorption and price impact}
+\label{sec:absorption}
+
+The next link requires the selling pressure to move the market price and
+stay there. Automated-market-maker depth and arbitrage absorb and reverse
+it instead. The measured price impact of a DeFi liquidation is minuscule, on the order of $0.05\%$ on Aave and $0.01\%$ on Maker at the block level, and temporary
+\citep{tian2025}. On the largest AMM, \citet{leharparlour2025} document the absence of long-lived arbitrage opportunities, so a pool-level displacement is corrected rather than propagated into a persistent move in aggregate ETH. The most serious counterweight is the
+permanent price impact documented by \citet{lehar2022}, with spillover as
+far as centralized venues. But their own evidence bounds its reach for our
+asset, in three steps. The flagship contagion in their data runs through
+an illiquid collateral token, not through deep ETH; the arbitrage they
+document reverses the transient component; and their heavier tails are
+explicitly two-sided, with no quantile or asymmetry test. That is a
+level-impact result, not an aggregate downside-amplification one. For deep,
+hourly ETH, the aggregate footprint is dominated by the symmetric volatility
+channel of Sections~\ref{sec:deconstruction}--\ref{sec:survives}, not by a
+directional translation of the distribution.
+
+\subsection{Oracle decoupling}
+\label{sec:oracle}
+
+The final link would require a transient on-chain price move to feed back
+into the aggregate market through the liquidation system itself. DeFi
+oracles are largely centralized-exchange-anchored and smoothed: they
+aggregate from external venues and are, in the words of the OECD study,
+oblivious to small price changes \citep{oecd2023}. A transient
+DEX deviation does not mechanically trigger a fresh liquidation wave priced
+off that deviation, so there is no small-move price-oracle-liquidation
+feedback loop. We place this channel last because its sign is
+design-conditional. The same oracle linkage is, in other configurations,
+itself a contagion channel, the broader oracle-design problem of
+\citet{caldarelli2020}.
+For small transient moves on a deep asset, smoothing and anchoring decouple
+and attenuate; the oracle-as-cascade channel manifests on large moves of
+illiquid assets, consistent with the illiquid-token flagship of
+Section~\ref{sec:absorption}. The net effect is in our favor for ETH at the
+hourly grain, with the acknowledgment that the reverse mechanism
+exists, which is why this is a modifier and not a load-bearing channel.
+
+The adversarial limit of this design-conditional channel is a liquidator who
+does not passively receive the oracle price but actively moves it.
+\citet{sadeghi2026} study profitable oracle manipulation that triggers
+liquidations on constant-product markets, a form of oracle-extractable value,
+and identify the transaction-fee conditions under which it becomes
+economically unviable. This is the precise micro-mechanism through which a
+liquidation-to-price loop could operate on chain, and a theoretical force that
+already bounds it. Our result bounds it from the data side: the hourly
+equivalence bound of Section~\ref{sec:boundednull} limits the asymmetric
+imprint such strategies, were they prevalent on deep ETH, leave in the
+aggregate tail, while staying silent on their block-level profitability, which
+an hourly panel cannot resolve. The active-liquidator premise is also ours;
+the flow we measure is cleared by agents who choose when to act.
+
+\subsection{Synthesis}
+
+The channel is real and raises volatility (Section~\ref{sec:volchannel}), but
+too small relative to aggregate ETH turnover (Section~\ref{sec:size}) and too
+efficiently cleared (Sections~\ref{sec:clearing}--\ref{sec:oracle}) to
+aggregate into a directional downside loop in the observable on-chain channel. The null of
+Section~\ref{sec:survives} does not rest on this beam; it is established
+empirically and bounded by equivalence. But the beam makes it
+intelligible rather than surprising, in order of evidentiary weight: size
+(load-bearing, a hard number), then clearing, then absorption, then the
+design-conditional oracle modifier. The account is size-contingent. It explains why the channel does not aggregate
+\emph{today}, not that it never could, a conditionality
+Section~\ref{sec:discussion} takes up.

@@ -1,0 +1,66 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper began with a real puzzle and a plausible prior. Ethereum's hourly
+returns carry a marked downside tail asymmetry, the textbook leverage-effect
+explanation is absent or inverted in crypto, and the field falls back on the
+liquidation cascade of the leverage cycle, a mechanism that DeFi, alone
+among markets, records transaction by transaction. A naive quantile local
+projection appears to confirm the prior in full: a first-percentile response
+\RatioTailMedImpact{} times the median on impact, deepening with the horizon,
+robust across a battery of robustness checks, surviving multiple-testing correction.
+
+A battery of diagnostics overturns that reading without overturning the
+estimate. The coefficient is genuine in level. Both permutation nulls
+leave mechanical overlap a minority share, with no signed bias. But its
+apparent downside specificity does not survive. A symmetric, zero-skew placebo
+reproduces the entire left--right tail gap at every horizon; the per-period
+construction shows both tails loading equally; the headline ratio is an
+artifact of an immobile median; and the whole signature replicates when
+Bitcoin is substituted as the outcome. What the naive analysis detected is a
+real but symmetric volatility channel, generic to crypto stress, dressed
+up as downside fragility. This is the trap that symmetric heteroskedasticity sets
+for quantile projections on overlapping cumulative returns, here sprung on
+real data where the naive answer looked spectacular.
+
+What survives is modest and worth having. Liquidations are a real,
+symmetric predictor of ETH tail risk, in and out of sample. The effect is
+incremental to
+a nested quantile benchmark, not a replacement for a dedicated scale model;
+the volatility
+channel they drive confirms and extends the existing transaction-level
+evidence to the conditional tails; and, net of volatility, we can
+\emph{exclude} downside-specific amplification larger than roughly
+\MdeEightyExc{} per unit of the log-liquidation shock, at the one-percent tail. That is evidence of
+absence at the economically relevant scale, not a bare failure to reject. A
+faint one-percent whisper survives detection but falls below the smallest
+effect size of interest and does not carry the conclusion.
+
+The takeaway is bounded on every side. At the observable on-chain scale and
+over this period, DeFi liquidations do not amplify ETH's downside tail
+beyond their symmetric volatility effect; they nonetheless predict tail
+risk, symmetrically; and a naive quantile local projection overreads that
+symmetric volatility as directional fragility. This is not no effect: the
+volatility channel is real. The short-horizon relation is bidirectional, so
+the finding is not causal. It does not refute centralized-exchange cascades,
+which our design cannot observe. And it does not claim that ETH's asymmetry
+is fictional. That asymmetry is real; the observable DeFi channel simply adds no
+downside-specific amplification to it, net of volatility.
+The null is size-contingent: if the DeFi share of crypto leverage grows
+materially, the channel could become aggregate-relevant, and the bound bears
+re-examination as that share moves.
+
+Three directions follow. We ran an unconditional-quantile (RIF) cross-check
+(Section~\ref{sec:deconstruction}); because RIF-OLS is here algebraically tied
+to the conditional model, a fully \emph{independent} unconditional
+estimator would test the artifact from a separate angle. An identification
+strategy
+isolating exogenous variation in liquidation timing, whether an adjustable-rate
+instrument or residualization at the quantile rather than the mean, would
+license the causal statements this paper declines. And centralized
+perpetual-futures data would let one test the spiral where it plausibly
+lives, outside our perimeter. The contribution we claim is correspondingly
+sized: a reproducible on-chain liquidation panel, a portable methodological
+caution that symmetric volatility masquerades as fragility in naive quantile
+projections, a bounded null against a popular directional prediction, and a
+symmetric tail-risk predictor, executed and stress-tested in full.

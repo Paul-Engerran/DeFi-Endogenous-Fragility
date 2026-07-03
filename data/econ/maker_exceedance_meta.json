@@ -1,0 +1,36 @@
+{
+  "script": "scripts/aux/run_maker_exceedance.py",
+  "purpose": "Coverage-gap robustness of the THESIS-bounded object: the per-period exceedance Delta=beta_down-beta_up at alpha=0.01. Decisive companion to run_maker_asymmetry (QLP gap) and run_maker_bound (level).",
+  "object": "exceedance_delta alpha=0.01 (per-period, paired LPM)",
+  "sesoi_strict_p50p95": 0.0010915461253353,
+  "mde80": 0.0009422558355928,
+  "baseline_delta_by_h": {
+    "0": 0.0005288825864827036,
+    "6": 0.00014983765968687576,
+    "12": -7.154820074985321e-05
+  },
+  "m_grid": [
+    0.1,
+    0.25,
+    0.5
+  ],
+  "m_defensible": 0.25,
+  "allocations": [
+    "prop_active",
+    "stress_adj0",
+    "prop_oi"
+  ],
+  "h_bound": 0,
+  "max_abs_delta_refit_at_h0_mdef": 0.0005210722232699611,
+  "max_abs_delta_over_sesoi": 0.47737077817934515,
+  "all_within_sesoi_at_h0_mdef": true,
+  "sign_flip_at_h0_mdef": false,
+  "verdict": "CONFIRMATORY: at h=0, every allocation at m<=0.25 keeps |Delta_refit| < SESOI=0.001092 (max |Delta|=0.000521 = 0.48x SESOI, alloc=prop_active). The exceedance-Delta EQUIVALENCE BOUND survives the Maker coverage gap: the gap moves the SECTION-5 magnitude but NOT the SECTION-7 bounded asymmetry. The thesis is robust; only the medium-horizon magnitude carries a coverage caveat.",
+  "confirmatory": true,
+  "interpretation": "If the bounded exceedance-Delta stays inside the SESOI under every credible Maker allocation, the coverage gap moves the apparent (Section-5) magnitude but not the bounded (Section-7) asymmetry the thesis rests on.",
+  "panel": "data/econ/econ_core_full_1h.parquet",
+  "n_rows_est": 40582,
+  "run_timestamp_utc": "2026-06-18T02:58:11.994474+00:00",
+  "python_version": "3.9.6",
+  "platform": "macOS-14.8.7-x86_64-i386-64bit"
+}

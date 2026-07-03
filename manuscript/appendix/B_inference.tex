@@ -1,0 +1,51 @@
+\section{Tail Inference}
+\label{app:inference}
+
+\paragraph{Same-specification standard-error ratio.}
+The case for bootstrap inference at the tail
+(Section~\ref{sec:method-inference}) rests on a same-specification
+comparison. We take the bootstrap standard error from the exact headline-spec
+bootstrap and the kernel standard error from the same table, at
+$\tau = 0.01$ (Table~\ref{tab:seratio}). The ratio ranges from
+\SeRatioMin{} to \SeRatioMax{} across horizons. This compares like with like.
+A cross-specification comparison would instead conflate the standard-error
+gap with differences in scale, controls, and shock definition.
+
+\begin{table}[t]
+\centering
+\caption{Kernel versus bootstrap standard errors, same specification,
+$\tau = 0.01$.}
+\label{tab:seratio}
+\input{../paper/tables/tabA2_se_ratio}
+\begin{minipage}{0.85\textwidth}
+\vspace{2pt}
+{\scriptsize \emph{Notes:} Bootstrap standard error from the
+exact-specification bootstrap; kernel standard error from the main
+table. Source: \texttt{se\_ratio\_nb07.csv}.}
+\end{minipage}
+\end{table}
+
+\paragraph{Block-length sensitivity.}
+The 24-hour block length of the moving-block bootstrap is the maximal
+horizon, the natural choice for the overlap structure. Nothing in our results
+turns on it. Table~\ref{tab:blocksens} reports the 80\%-power minimum
+detectable effect for the paired one-percent asymmetry, the object that
+drives the equivalence bound, at block lengths of 12, 24, 36, and 48
+hours. The bound moves by less than a tenth of its value across the range.
+By construction the 24-hour column reproduces the corresponding cells of the
+main exceedance table exactly, a built-in cross-check that the two run on
+identical machinery.
+
+\begin{table}[t]
+\centering
+\caption{Block-length sensitivity of the equivalence bound (MDE at 80\%
+power, $\Delta$ at $\alpha = 1\%$).}
+\label{tab:blocksens}
+\input{../paper/tables/tabA1_block_sensitivity}
+\begin{minipage}{0.85\textwidth}
+\vspace{2pt}
+{\scriptsize \emph{Notes:} Per-period paired bootstrap, $1{,}000$
+replications. The 24-hour column reproduces the main exceedance results.
+Source: \texttt{block\_sensitivity.csv}.}
+\end{minipage}
+\end{table}

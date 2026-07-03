@@ -1,0 +1,157 @@
+\section{Introduction}
+\label{sec:intro}
+
+Hourly Ethereum (ETH) returns carry a marked downside tail asymmetry. Over
+2021--2025 the skewness is \SkewEth{} with excess kurtosis of \KurtEth{}, the
+worst hour ($\MinRet\%$) is far larger than the best ($+\MaxRet\%$), and hours
+below $-5\%$ outnumber hours above $+5\%$ two to one
+(\FarFiveDown{} versus \FarFiveUp).\footnote{The asymmetry is a
+\emph{far-extreme} property: counts beyond absolute $\pm 5\%$/$\pm 7\%$
+thresholds. The 1\% and 5\% quantiles themselves are nearly symmetric (ratio
+\QratioOnePct{} at the 1\% level), a distinction that matters below. The
+sign of measured crypto skewness differs across return definitions and
+samples: in simple returns it is positive across major cryptocurrencies
+\citep{liu2021}, while the hourly log returns studied here skew negative. Fat tails are
+the expected stylized fact \citep{cont2001,osterrieder2017}.}
+For equities, the textbook reading of such asymmetry runs through the
+leverage effect. In crypto, that channel is famously absent or inverted
+\citep{baur2018,brini2022,aharon2023}, and the literature falls back on a
+different mechanism: the liquidation cascade of the leverage cycle
+\citep{geanakoplos2010,brunnermeier2009}, in which falling prices force
+collateralized positions to unwind, and forced selling begets further falls.
+The mechanism is plausible and widely invoked, both in empirical studies of
+DeFi leverage and liquidation risk \citep{perez2021} and in official-sector
+financial-stability assessments \citep{oecd2023,fsb2023}. In centralized venues it is essentially
+unobservable.
+
+Decentralized finance changes the observability. DeFi lending protocols
+liquidate undercollateralized positions mechanically, on-chain, transaction
+by transaction. The shadow quantity at the heart of equilibrium leverage
+models, the tightening of collateral constraints, is recorded in public
+data. We assemble an hourly panel of ETH-collateralized DeFi liquidations
+(\LiqTotalBn{} billion USD across 2021--2025) and ask whether this observable
+forced deleveraging amplifies the downside tail of ETH returns, as the
+leverage-cycle prior predicts. We are explicit about the design. The
+measure is aggregated to the hour, covers DeFi only (centralized-exchange
+liquidations are out of scope), and at short horizons the liquidation--return
+link is mechanically bidirectional: \PLiqWorstOne\% of the worst-1\% return
+hours contain contemporaneous liquidations, against \PLiqBestOne\% of the
+best-1\% hours and \PLiqAll\% unconditionally. The register of the paper is
+therefore descriptive and predictive, never causal.
+
+Our empirical vehicle is the quantile local projection (QLP) of
+\citet{han2024}, the natural transposition of the Growth-at-Risk logic of
+\citet{adrian2019}, in which tails can respond where the mean is silent, to
+high-frequency crypto returns. The naive QLP delivers what the prior
+predicts, and what we suspect this nascent literature will soon be reporting.
+On impact, the response of the first return percentile to a liquidation shock
+is \RatioTailMedImpact$\times$ the (near-zero) median response; the
+coefficient deepens monotonically to \BetaQoneHtwelve{} at twelve hours; the
+left tail appears to respond more than the right; and the pattern survives a
+robustness battery with Bonferroni adjustments. It looks like
+textbook endogenous fragility. It is not. Showing why, with a
+diagnostic battery that travels beyond crypto, is the contribution of this
+paper.
+
+The diagnostics dismantle the downside-amplification reading and replace it
+with something more modest and, we argue, more useful. First, a
+\emph{symmetric} placebo, a sign-flip world that preserves the exact
+empirical volatility path and the full magnitude distribution of returns but
+imposes zero skew by construction \citep{wu1986,liu1988,davidson2008},
+reproduces the entire left--right tail gap at every horizon, including the
+deepening profile. The apparent downside specificity is what symmetric
+heteroskedasticity looks like through the lens of extreme quantiles, the
+mechanism identified in macroeconomic data by \citet{carriero2024} and, for
+scale versus shape in quantile regression, by \citet{koenker1982} and
+\citet{machado2000}. Second, the clean per-period counterpart of the naive
+regression, tail-exceedance indicators in the spirit of
+\citet{engle2004}, shows the shock loads \emph{equally on both tails}
+($\Delta = \beta^{\text{down}} - \beta^{\text{up}} = \DeltaExcImpact$ at the
+1\% level on impact, $p = \DeltaExcImpactP$), while the overlapping cumulative
+variant manufactures a significant asymmetry at twelve hours: the artifact
+made visible in a single comparison \citep{hodrick1992,boudoukh2008,
+neuberger2021,farago2023}. Third, re-running the full QLP with
+Bitcoin as the outcome reproduces the ETH signature at
+$\BtcOverEthHtwelve{}$ of its magnitude at twelve hours, with the same
+deepening: the pattern is generic crypto stress, not an ETH-specific DeFi
+channel. Fourth, an equivalence test in the spirit of
+\citet{altman1995} and \citet{lakens2017} converts the null into a bound.
+Net of volatility, we can exclude downside-specific amplification
+larger than \MdeEightyExc{} per unit of the log-liquidation shock, below
+our pre-specified smallest effect size of interest under all three
+calibrations of the shock span, including the strictest. This bound is a
+one-percent-tail statement; it does not constrain the far-extreme
+($\pm 5$--$7\%$) asymmetry documented above, which an hourly panel cannot resolve.
+
+What survives is worth having. Liquidations predict ETH
+tail risk in both tails, symmetrically. Dual permutation nulls (a
+circular shift of the shock and an innovation reshuffle) confirm that the
+long-horizon coefficient reflects signal rather than overlap noise,
+with no signed bias. And the predictive content holds out of sample. In a
+rolling-origin pinball-loss evaluation \citep{diebold1995}, adding
+liquidation information to an otherwise identical quantile model improves
+tail forecasts at both moderate tails at short horizons
+(by \OosSkillFiveHone\% and \OosSkillNinetyFiveHone\% at one hour,
+$p < 0.01$), though it does not outperform a dedicated GARCH(1,1) scale
+model; the claim is incremental information, not dominance. The
+volatility channel itself confirms and extends the transaction-level evidence
+of \citet{oecd2023} and \citet{lehar2022} to the conditional tails.
+
+The contribution is a portable \emph{methodological caution}, and it
+materializes in a new empirical regularity. In quantile local
+projections on overlapping cumulative returns, a symmetric volatility
+response masquerades as downside fragility. The conjunction of extreme
+quantiles, cumulative overlap, and heteroskedastic returns is where the
+artifact arises, and the diagnostic battery we provide is built to detect
+it. \citet{carriero2024} documented the mechanism for macroeconomic tail
+risk; we extend it to asset returns, where the policy narrative it can
+mislead (``DeFi liquidations amplify crashes'') is live.
+
+We mean the battery less as a one-off diagnosis of the DeFi data than as a
+portable test-bench: a symmetric placebo for shape, dual permutation
+nulls for level, a per-period-versus-cumulative exceedance comparison,
+standardized skew and equivalence bounds, a cross-asset outcome placebo, and
+an out-of-sample evaluation. Any quantile-local-projection study on
+overlapping cumulative returns can rerun it to separate scale from shape. That
+the apparatus is worth porting is itself a finding. It survives every
+adversarial repair we put to it, and its positive control confirms the
+equivalence test recovers an asymmetry of actionable size while
+staying silent below it, so a bounded null it returns is power-confirmed,
+not power-absent.
+
+The
+regularity the caution leaves standing is the positive finding: observable
+forced deleveraging is a \emph{symmetric} out-of-sample predictor
+of ETH tail risk (incremental pinball skill of \OosSkillFiveHone\% and
+\OosSkillNinetyFiveHone\% at one hour, $p < 0.01$), to our knowledge among the first quantile-resolution evidence on on-chain forced deleveraging. The
+null it delivers is itself informative because it is \emph{bounded}: net of
+volatility we exclude any downside-specific amplification larger than
+\MdeEightyExc{} per unit of shock at the one-percent tail, a falsifiable statement rather than a
+bare failure to reject. The whole is made reproducible by an hourly
+on-chain liquidation panel (2021--2025) and a one-command replication
+package.
+
+Why does observable forced deleveraging fail to amplify the downside? Scale
+and clearing. Median daily DeFi liquidations are \SizeMedianShare{} of one percent of ETH
+spot-plus-perpetual turnover; the worst liquidation day of the sample reaches
+\SizeShareWorstDay\%; and \citet{moallemi2024} document that over 70\% of
+liquidations occur without any downward price jump, consistent with the
+near-instant clearing documented by \citet{perez2021} and with the small,
+transient pool-level price impacts in \citet{tian2025}. The null is therefore explicitly \emph{size-contingent}.
+It characterizes the current scale of observable DeFi deleveraging, not a
+structural impossibility, and would bear re-examination if DeFi's share of
+crypto leverage grows materially \citep{fsb2023}. Likewise, nothing here
+speaks to liquidation cascades on centralized derivatives venues, which our
+design cannot observe. The asymmetry of ETH returns is real; our evidence
+says only that observable DeFi liquidations show no downside-specific
+amplification of it net of volatility.
+
+The paper proceeds as follows. Section~\ref{sec:data} describes the data and
+the construction of the liquidation measure. Section~\ref{sec:stylized}
+establishes the stylized facts. Section~\ref{sec:method} lays out the locked
+specification and inference protocol. Section~\ref{sec:apparent} presents the
+naive result. Section~\ref{sec:deconstruction} deconstructs it.
+Section~\ref{sec:survives} presents what survives, including the equivalence
+bounds and the out-of-sample evaluation. Section~\ref{sec:mechanisms}
+discusses mechanisms, Section~\ref{sec:discussion} scope and limitations, and
+Section~\ref{sec:conclusion} concludes.

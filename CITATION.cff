@@ -1,0 +1,41 @@
+# Citation File Format — https://citation-file-format.github.io/
+# Allows GitHub to display a "Cite this repository" button and lets
+# Zenodo / OpenAIRE / OSF auto-ingest the metadata.
+
+cff-version: 1.2.0
+message: "If you use this replication package, please cite the working paper."
+title: "When Volatility Masquerades as Fragility: DeFi Liquidations, Quantile Local Projections, and the Tails of Ethereum Returns"
+abstract: >-
+  Replication package for the working paper. The package estimates
+  the response of ETH hourly returns to DeFi liquidation shocks
+  across the conditional return distribution (quantile local
+  projections, τ × h grid) on a 41,328-hour panel
+  (2021-03-15 → 2025-11-30 UTC). Sources: Bybit perpetuals, CCData
+  spot benchmarks, and a curated Dune Analytics feed of EVM-wide
+  DeFi liquidations.
+authors:
+  - family-names: Engerran
+    given-names: Paul
+    email: paul.engerran@gmail.com
+type: software
+version: "2.0.0"
+date-released: "2026-07-04"
+license: MIT
+keywords:
+  - quantile regression
+  - local projections
+  - DeFi
+  - liquidations
+  - leverage cycle
+  - cryptocurrency
+  - market fragility
+  - Ethereum
+repository-code: "https://github.com/Paul-Engerran/DeFi-Endogenous-Fragility"
+preferred-citation:
+  type: unpublished
+  title: "When Volatility Masquerades as Fragility: DeFi Liquidations, Quantile Local Projections, and the Tails of Ethereum Returns"
+  authors:
+    - family-names: Engerran
+      given-names: Paul
+  year: 2026
+  notes: "Working paper. Replication package: defi-endogenous-fragility."

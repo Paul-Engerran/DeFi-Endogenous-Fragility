@@ -1,0 +1,110 @@
+\section{Scope, Mediation, and Limitations}
+\label{sec:discussion}
+
+\subsection{Perimeter}
+\label{sec:scope}
+
+What we tested is the observable on-chain channel. A reflexive
+leverage-cycle spiral, in the strict sense, plausibly lives on the
+centralized perpetual-futures venue, a compartment we do not observe and
+therefore neither test nor refute. Our null is not a denial of
+centralized-exchange cascades. It is a result about a different object, three
+to four orders of magnitude smaller. The scale gap carries this reading. The
+typical daily DeFi flow is four to six orders of magnitude below the largest
+single-day centralized cascade on record (roughly nineteen billion dollars,
+October 2025; Section~\ref{sec:size}), and the largest crashes of the period (Terra, FTX,
+October 2025) are uniformly attributed to centralized, perpetual, or systemic
+dynamics, never to on-chain DeFi. We are deliberate about the evidentiary
+status of that attribution. The weight of evidence favors the centralized
+venue, but the causal claim is associative on both sides: event studies,
+connectedness measures, and practitioner magnitudes, the very class of
+non-identified evidence this paper otherwise declines. The formulation we
+prefer is that the centralized venue is the most plausible locus, not an
+established cause, and that our DeFi design cannot adjudicate it. The
+supporting magnitudes are labeled as event-study and practitioner figures
+throughout, and the measured on-chain price impact remains minuscule and temporary \citep{tian2025}, real locally but too small to aggregate.
+
+\subsection{The null in the crypto leverage-effect debate}
+\label{sec:mediation}
+
+The field is split. In spot data at lower frequencies the leverage effect
+is inverted or absent \citep{baur2018,aharon2023}, while the cascade
+narrative, in which liquidations drive the downside, lives in a different
+venue, frequency, and jump regime. Our null is the tail-response counterpart
+of the inverted-or-absent spot effect, transposed to a new object: net of
+volatility, the DeFi shock predicts large up-moves and large down-moves
+equally. It is not in tension with the cascade results, which inhabit an
+intraday, jump-driven, centralized regime that an hourly on-chain shock does
+not capture. The reconciling axis is the decomposition of \citet{huang2022},
+in which the diffusive component behaves conventionally while jumps invert, so
+the net sign flips with the mix. That is why spot and cascade findings coexist
+without contradiction. Our contribution to the debate is one clean empirical
+point that sits squarely in the both-tails-respond-more-than-the-mean camp
+\citep{ando2022}. We do not adjudicate the true sign of the crypto leverage
+effect; we place our null within it. One apparent counter deserves a direct
+word. Cross-coin tail dependence is, if anything, stronger on the
+\emph{upside} \citep{nguyen2020}, but that is co-dependence across coins, not
+a single asset's response to a shock, and it is consistent with our finding of
+no downside specificity.
+
+\subsection{Scope of the null}
+\label{sec:caution}
+
+The null must be stated precisely. At the observable on-chain scale and over
+this period, there is no economically significant downside amplification. That
+is not the same as saying there is none, or that there will be none. The
+conditional is explicit: \emph{if} the DeFi share of crypto leverage were to
+grow materially, the channel \emph{could} become aggregate-relevant. The
+weight of that statement is carried by three legs, size
+(Section~\ref{sec:size}), mechanism
+(Sections~\ref{sec:clearing}--\ref{sec:oracle}), and the official-sector
+consensus that DeFi is not yet systemic but bears watching as it grows
+\citep{fsb2023,aramonte2021,imf2021,ecb2022}, never by the whisper. The
+conditionality is not rhetorical: on-chain leverage \citep{heimbach2024} and
+cross-protocol interconnection \citep{badev2023} are each time-varying, and
+the ecosystem's measured fragility moves with them \citep{bertomeu2024}. This is why we bound the null
+rather than assert a zero. An equivalence bound
+(Section~\ref{sec:boundednull}) excludes only a downside asymmetry larger than
+roughly \MdeEightyExc{} per unit of shock, which is what makes the null
+respectable and falsifiable rather than a bare failure to reject
+\citep{altman1995,ioannidis2017}.
+
+The one-percent whisper bounded in Section~\ref{sec:boundednull} is, in
+addition, governed at $\tau = 0.01$ by a non-Gaussian limiting distribution
+that makes standard inference unreliable to begin with
+\citep{chernozhukov2005,chernozhukov2011}. That is one more reason it does not
+carry the conclusion, which rests on size, mechanism, and consensus.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+We list the limitations, say why each is one, and state what was done about
+it. \emph{(1) Hourly aggregation.} The shock is aggregated to the hour, so
+within-hour sequencing is lost and the impact hour mixes trigger and
+consequence; we adopt a predictive register and read across horizons, but
+no tick-level sequencing is available. \emph{(2) BTC--ETH co-movement.} The
+impact response replicates on Bitcoin (Section~\ref{sec:btc}:
+$\beta^{\text{BTC}}_0(0.01) = \BtcBetaQoneHzero$ against
+$\BetaQoneHzero{}$ for ETH), so the shock is partly a common-crypto stress
+proxy rather than purely ETH-specific; the cross-asset placebo is precisely
+the diagnostic for this, and the result is what motivates retiring the
+specificity claim rather than defending it. \emph{(3) Short-horizon reverse
+causality.} \PLiqWorstOne\% of the worst-1\% hours contain contemporaneous
+liquidations against \PLiqBestOne\% of the best, so a crash mechanically
+triggers liquidations and the short-horizon relation is bidirectional. Hence
+the non-causal register, with the one-hour lag and horizon reading as
+mitigation. \emph{(4) No centralized exchange.} The perimeter is on-chain
+only, so the plausible locus of the spiral is structurally out of reach.
+\emph{(5) Mean, not quantile, residualization.} The orthogonalized shock is
+the residual of an OLS, not a quantile, regression. We acknowledge this as a
+refinement, with the raw in-regression controls serving as the canonical
+channel and the orthogonalized shock reserved for the placebo.
+\emph{(6) Estimated denominators.} The size ratio rests on
+centralized-reported, partly wash-inflated turnover figures, so it is an
+order-of-magnitude bound; the numerator is the only hard figure, and the
+inequality survives one to two orders of rescaling. \emph{(7) No structural
+identification.} Every estimate is a predictive association; converting them
+to causal statements would require exogenous variation in liquidation
+timing, the most immediate direction for future work. Limitations (1)--(3)
+bound causality, (4) bounds scope, and (5)--(7) bound precision; none
+invalidates the beam, and together they fix the perimeter of the claim.

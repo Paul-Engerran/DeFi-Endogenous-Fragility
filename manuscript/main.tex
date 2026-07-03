@@ -1,0 +1,39 @@
+\documentclass[12pt]{article}
+\input{preamble}
+\input{../paper/numbers.tex}   % GENERATED macros — every number in prose comes from here
+
+\title{When Volatility Masquerades as Fragility: \\ DeFi Liquidations, Quantile Local Projections, \\ and the Tails of Ethereum Returns}
+\author{Paul Engerran\thanks{Replication code and data available at \url{https://github.com/Paul-Engerran/DeFi-Endogenous-Fragility}. All figures, tables, and in-text numbers are generated from canonical artefacts by a one-command pipeline (\texttt{make paper}).}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\input{sections/00_abstract}
+
+\noindent\textbf{Keywords:} DeFi, liquidations, quantile local projections,
+tail risk, leverage cycle, equivalence testing.\\
+\textbf{JEL:} G12, G14, G23, C22, C58.
+
+\input{sections/01_introduction}
+\input{sections/02_data}                % §2  Data (sec:data)
+\input{sections/03_stylized_facts}      % §3  Stylized facts (sec:stylized)
+\input{sections/04_method}              % §4  Empirical strategy (sec:method)
+\input{sections/05_apparent_result}     % §5  The apparent result (sec:apparent)
+\input{sections/06_deconstruction}      % §6  Deconstruction (sec:deconstruction)
+\input{sections/07_what_survives}       % §7  What survives (sec:survives)
+\input{sections/08_mechanisms}          % §8  Mechanisms (sec:mechanisms)
+\input{sections/09_discussion}          % §9  Scope, limitations (sec:discussion)
+\input{sections/10_conclusion}          % §10 Conclusion (sec:conclusion)
+
+\bibliography{references}
+
+\clearpage
+\appendix
+\input{appendix/A_robustness}           % Robustness battery, dual nulls, 9q grid
+\clearpage
+\input{appendix/B_inference}            % block-length sensitivity + same-spec SE ratio
+\clearpage
+\input{appendix/C_data_construction}    % Dune query, filters, exclusions
+
+\end{document}
