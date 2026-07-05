@@ -411,6 +411,28 @@ Citation metadata is in [`CITATION.cff`](CITATION.cff). BibTeX:
 
 ---
 
+## Use of generative AI
+
+Large language models (Anthropic Claude, Opus and Fable generations, 2026),
+used under the author's direction through an agentic coding interface,
+assisted throughout this project: literature and bibliography work; proposal
+of diagnostic and robustness methods and of candidate interpretations;
+analysis and packaging code; execution of the author's deterministic
+pipeline; the verification and reproducibility infrastructure; and targeted
+manuscript passages. The research question, the locked specification, the
+data construction, and all modelling and interpretive decisions are the
+author's, and no reported quantity was estimated by a model. Every reported
+number regenerates from the deposited data with `make reproduce`, and
+`make check-numbers` confirms that all in-text numerical macros are
+unchanged, so correctness rests on reproduction rather than on trust in the
+assistance. Citations were checked against primary sources; several
+fabricated or mis-attributed references were caught and removed during
+verification. The author reviewed and approved all content and assumes sole
+responsibility. The full declaration appears in the manuscript, in the
+unnumbered section before the references.
+
+---
+
 ## License and contact
 
 Code, documentation, generated figures, and processed data artefacts are

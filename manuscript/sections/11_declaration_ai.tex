@@ -1,0 +1,54 @@
+\section*{Declaration on the use of generative AI}
+\label{sec:ai-declaration}
+
+This project made substantial use of generative artificial intelligence:
+large language models of the Anthropic Claude family (the Opus and Fable
+generations, 2026), operated through an agentic coding interface with
+multi-agent orchestration, under my direction and subject to my review at
+every stage. Their role spanned several parts of the work: discovering and
+organising the related literature and assembling the bibliography; proposing
+diagnostic and robustness strategies, analytical framings, and candidate
+interpretations; scaffolding and drafting analysis and packaging code;
+executing the pre-committed estimation pipeline to regenerate the deposited
+artifacts; building the verification and reproducibility infrastructure of
+the replication package; and drafting and revising targeted passages of the
+manuscript. Throughout, I treated these tools as fallible research aids
+rather than as sources of authority, and subjected their output to a
+verification protocol commensurate with their documented failure modes.
+
+The integrity of the results does not rest on trust in that assistance. The
+research question, the locked specification, the identification and
+inference strategy, the data sources and their construction, and every
+modelling and interpretive decision are my own; the specification was locked
+before the diagnostic phase. No reported quantity was estimated by a
+language model. All estimates derive from my seeded, deterministic pipeline,
+which the assistant executed only to regenerate the committed artifacts; the
+regenerated output was verified identical to my originals at reporting
+precision, and every in-text numerical macro is byte-matched by a
+non-regression guard. Two points warrant note. First, the size shares in
+Table~\ref{tab:sizeratio} reflect a change of denominator basis that I
+decided and the assistant implemented: deterministic arithmetic over
+author-verified industry constants, not estimation, isolated and verified to
+move exactly those quantities, with the prior convention retained as an
+alternative row. Second, quantities quoted from primary sources were
+inserted only after verbatim checking against those sources. Correctness is
+therefore established by reproduction rather than by provenance: a single
+command re-derives every table and figure from the deposited data on a fresh
+clone, the guard confirms that all reported numbers are unchanged after any
+code change, and AI-assisted modifications were accepted only when the
+guard, the test suite, and a byte-level comparison of independently
+regenerated artifacts agreed that the scientific content was unchanged.
+
+The characteristic failure mode of language-model assistance is text that is
+fluent but unsupported, and it was treated accordingly. The verification
+layer identified and removed several fabricated or mis-attributed citations,
+reworded or cut statements that could not be traced to a primary source or
+to a re-executable computation, and caught coding errors before they reached
+the results; I report this as evidence that verification was both necessary
+and applied. The build automation, verification apparatus, and
+data-acquisition scripts of the replication package are likewise
+substantially AI-authored under my direction and approved by me, and the
+committed result files were regenerated under a pinned deterministic
+environment. These models do not meet the criteria for authorship. I
+reviewed and approved all content and assume sole responsibility for this
+paper, including any remaining errors.
