@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
+[![DOI](https://zenodo.org/badge/1169412894.svg)](https://doi.org/10.5281/zenodo.21230381)
 
 Replication package for the working paper *"When Volatility Masquerades as
 Fragility: DeFi Liquidations, Quantile Local Projections, and the Tails of
