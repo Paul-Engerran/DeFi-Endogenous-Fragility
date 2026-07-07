@@ -13,8 +13,8 @@ to four orders of magnitude smaller. The scale gap carries this reading. The
 typical daily DeFi flow is four to six orders of magnitude below the largest
 single-day centralized cascade on record (roughly nineteen billion dollars,
 October 2025; Section~\ref{sec:size}), and the largest crashes of the period (Terra, FTX,
-October 2025) are uniformly attributed to centralized, perpetual, or systemic
-dynamics, never to on-chain DeFi. We are deliberate about the evidentiary
+October 2025) are, in event-study and practitioner accounts, associated with
+centralized, perpetual, or systemic dynamics rather than with on-chain DeFi. We are deliberate about the evidentiary
 status of that attribution. The weight of evidence favors the centralized
 venue, but the causal claim is associative on both sides: event studies,
 connectedness measures, and practitioner magnitudes, the very class of
@@ -38,8 +38,8 @@ intraday, jump-driven, centralized regime that an hourly on-chain shock does
 not capture. The reconciling axis is the decomposition of \citet{huang2022},
 in which the diffusive component behaves conventionally while jumps invert, so
 the net sign flips with the mix. That is why spot and cascade findings coexist
-without contradiction. Our contribution to the debate is one clean empirical
-point that sits squarely in the both-tails-respond-more-than-the-mean camp
+without contradiction. Our contribution to the debate is one empirical
+point that sits in the both-tails-respond-more-than-the-mean camp
 \citep{ando2022}. We do not adjudicate the true sign of the crypto leverage
 effect; we place our null within it. One apparent counter deserves a direct
 word. Cross-coin tail dependence is, if anything, stronger on the
@@ -63,11 +63,15 @@ consensus that DeFi is not yet systemic but bears watching as it grows
 conditionality is not rhetorical: on-chain leverage \citep{heimbach2024} and
 cross-protocol interconnection \citep{badev2023} are each time-varying, and
 the ecosystem's measured fragility moves with them \citep{bertomeu2024}. This is why we bound the null
-rather than assert a zero. An equivalence bound
-(Section~\ref{sec:boundednull}) excludes only a downside asymmetry larger than
-roughly \MdeEightyExc{} per unit of shock, which is what makes the null
-respectable and falsifiable rather than a bare failure to reject
-\citep{altman1995,ioannidis2017}.
+rather than assert a zero. The equivalence exercise
+(Section~\ref{sec:boundednull}) separates two objects at the one-percent tail. Net of
+volatility, the exceedance asymmetry (down minus up) is bounded below the smallest
+effect size of interest under all three calibrations of the shock span, including the
+strictest, so it excludes any downside asymmetry larger than roughly \MdeEightyExc{}
+per unit of shock; a small standardized residual is statistically detectable but
+economically negligible, clearing two of the three calibrations and borderline under
+the strictest. Both readings make the null respectable and falsifiable rather than a
+bare failure to reject \citep{altman1995,ioannidis2017}.
 
 The one-percent whisper bounded in Section~\ref{sec:boundednull} is, in
 addition, governed at $\tau = 0.01$ by a non-Gaussian limiting distribution
@@ -107,4 +111,9 @@ identification.} Every estimate is a predictive association; converting them
 to causal statements would require exogenous variation in liquidation
 timing, the most immediate direction for future work. Limitations (1)--(3)
 bound causality, (4) bounds scope, and (5)--(7) bound precision; none
-invalidates the beam, and together they fix the perimeter of the claim.
+invalidates the beam, and together they fix the perimeter of the claim. The
+coverage limitations of the underlying data (MakerDAO de facto absent, the
+excluded liquid-restaking collateral, Bybit-only open interest, the
+oracle-versus-perpetual price mismatch, and the dust and exploit filters) are
+established and bounded in Section~\ref{sec:data-limits}, and each was shown
+there to leave the null intact or to sharpen it.

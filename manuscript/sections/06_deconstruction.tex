@@ -173,7 +173,7 @@ the large symmetric widening, and it points the same way.
 
 The ``\RatioTailMedImpact$\times$'' headline deserves a closer look,
 because it is rhetorically the strongest number in
-Section~\ref{sec:apparent} and statistically the emptiest. Volatility
+Section~\ref{sec:apparent} yet statistically the least informative. Volatility
 widens both tails but does not move the center: $\beta_h(0.50) \approx 0$
 is what a scale channel implies (and what the silent OLS mean
 regression already said). A tail-to-median ratio with a near-zero
@@ -197,8 +197,10 @@ real and symmetric, and still specifically about ETH's DeFi collateral
 channel. The sharpest test replaces the outcome. We re-run the full
 quantile local projection, identical shock and horizons, with
 Bitcoin returns as the dependent variable (the cross-asset control
-becoming ETH's return, by symmetry; BTC has no comparable ETH-collateral
-DeFi channel). The ETH signature replicates on Bitcoin in every respect
+becoming ETH's return, by symmetry; BTC has no direct ETH-collateral
+forced-selling channel, yet is a highly correlated benchmark, so a
+replicated signature demonstrates non-specificity rather than a null
+effect). The ETH signature replicates on Bitcoin in every respect
 (Figure~\ref{fig:btc}): $\beta^{\text{BTC}}_0(0.01) = \BtcBetaQoneHzero$
 on impact, deepening to $\BtcBetaQoneHtwelve$ at twelve hours, a
 near-parallel profile at \BtcOverEthHzero{} of the ETH magnitude on impact
@@ -251,7 +253,7 @@ volatility channel.
 The reconciled reading of Section~\ref{sec:apparent} is now complete. In
 \emph{level}, $\beta_h(0.01)$ is overwhelmingly genuine: both
 permutation nulls leave mechanical noise a minority share, with no signed
-bias. In \emph{shape}, the asymmetry is not real. A zero-skew world
+bias. In \emph{shape}, the raw QLP asymmetry is not evidence of economically meaningful downside-specific shape. A zero-skew world
 reproduces the entire left--right gap at every horizon, the per-period
 construction shows both tails loading equally, and the headline ratio is
 an artifact of an immobile median. In \emph{specificity}, the signature

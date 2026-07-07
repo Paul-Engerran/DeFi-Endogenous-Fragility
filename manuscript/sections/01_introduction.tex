@@ -14,15 +14,14 @@ samples: in simple returns it is positive across major cryptocurrencies
 \citep{liu2021}, while the hourly log returns studied here skew negative. Fat tails are
 the expected stylized fact \citep{cont2001,osterrieder2017}.}
 For equities, the textbook reading of such asymmetry runs through the
-leverage effect. In crypto, that channel is famously absent or inverted
-\citep{baur2018,brini2022,aharon2023}, and the literature falls back on a
-different mechanism: the liquidation cascade of the leverage cycle
+leverage effect. In crypto, that channel is often found to be weak, absent, or inverted
+\citep{baur2018,brini2022,aharon2023}, and a commonly invoked alternative
+mechanism is the liquidation cascade of the leverage cycle
 \citep{geanakoplos2010,brunnermeier2009}, in which falling prices force
 collateralized positions to unwind, and forced selling begets further falls.
 The mechanism is plausible and widely invoked, both in empirical studies of
 DeFi leverage and liquidation risk \citep{perez2021} and in official-sector
-financial-stability assessments \citep{oecd2023,fsb2023}. In centralized venues it is essentially
-unobservable.
+financial-stability assessments \citep{oecd2023,fsb2023}. In centralized venues the full mechanism is largely opaque.
 
 Decentralized finance changes the observability. DeFi lending protocols
 liquidate undercollateralized positions mechanically, on-chain, transaction
@@ -36,20 +35,21 @@ measure is aggregated to the hour, covers DeFi only (centralized-exchange
 liquidations are out of scope), and at short horizons the liquidation--return
 link is mechanically bidirectional: \PLiqWorstOne\% of the worst-1\% return
 hours contain contemporaneous liquidations, against \PLiqBestOne\% of the
-best-1\% hours and \PLiqAll\% unconditionally. The register of the paper is
+best-1\% hours and \PLiqAll\% unconditionally. Two coverage gaps further bound the claim: MakerDAO, historically among the largest liquidation venues, is de facto absent from the panel, and the sample predates the liquid-restaking-token collateral generation; we assess the direction of both in Section~\ref{sec:discussion}. The register of the paper is
 therefore descriptive and predictive, never causal.
 
 Our empirical vehicle is the quantile local projection (QLP) of
 \citet{han2024}, the natural transposition of the Growth-at-Risk logic of
 \citet{adrian2019}, in which tails can respond where the mean is silent, to
 high-frequency crypto returns. The naive QLP delivers what the prior
-predicts, and what we suspect this nascent literature will soon be reporting.
+predicts, and what this nascent literature could plausibly report before
+recognizing the artifact.
 On impact, the response of the first return percentile to a liquidation shock
 is \RatioTailMedImpact$\times$ the (near-zero) median response; the
 coefficient deepens monotonically to \BetaQoneHtwelve{} at twelve hours; the
 left tail appears to respond more than the right; and the pattern survives a
 robustness battery with Bonferroni adjustments. It looks like
-textbook endogenous fragility. It is not. Showing why, with a
+endogenous fragility. It is not. Showing why, with a
 diagnostic battery that travels beyond crypto, is the contribution of this
 paper.
 
@@ -76,10 +76,14 @@ $\BtcOverEthHtwelve{}$ of its magnitude at twelve hours, with the same
 deepening: the pattern is generic crypto stress, not an ETH-specific DeFi
 channel. Fourth, an equivalence test in the spirit of
 \citet{altman1995} and \citet{lakens2017} converts the null into a bound.
-Net of volatility, we can exclude downside-specific amplification
-larger than \MdeEightyExc{} per unit of the log-liquidation shock, below
-our pre-specified smallest effect size of interest under all three
-calibrations of the shock span, including the strictest. This bound is a
+Net of volatility, we can bound two objects. The one-percent-tail
+exceedance asymmetry (down minus up) is below our pre-specified smallest
+effect size of interest under all three calibrations of the shock span,
+including the strictest; a small standardized residual is statistically
+detectable but economically negligible, clearing two of the three
+calibrations and borderline under the strictest. Jointly they exclude
+downside-specific amplification larger than \MdeEightyExc{} per unit of the
+log-liquidation shock. This bound is a
 one-percent-tail statement; it does not constrain the far-extreme
 ($\pm 5$--$7\%$) asymmetry documented above, which an hourly panel cannot resolve.
 
@@ -113,8 +117,8 @@ nulls for level, a per-period-versus-cumulative exceedance comparison,
 standardized skew and equivalence bounds, a cross-asset outcome placebo, and
 an out-of-sample evaluation. Any quantile-local-projection study on
 overlapping cumulative returns can rerun it to separate scale from shape. That
-the apparatus is worth porting is itself a finding. It survives every
-adversarial repair we put to it, and its positive control confirms the
+the apparatus is worth porting is itself a finding. It survives the
+adversarial repairs we put to it, and its positive control confirms the
 equivalence test recovers an asymmetry of actionable size while
 staying silent below it, so a bounded null it returns is power-confirmed,
 not power-absent.
@@ -126,8 +130,10 @@ of ETH tail risk (incremental pinball skill of \OosSkillFiveHone\% and
 \OosSkillNinetyFiveHone\% at one hour, $p < 0.01$), to our knowledge among the first quantile-resolution evidence on on-chain forced deleveraging. The
 null it delivers is itself informative because it is \emph{bounded}: net of
 volatility we exclude any downside-specific amplification larger than
-\MdeEightyExc{} per unit of shock at the one-percent tail, a falsifiable statement rather than a
-bare failure to reject. The whole is made reproducible by an hourly
+\MdeEightyExc{} per unit of shock at the one-percent tail (the exceedance
+asymmetry clears all three calibrations, including the strictest; the small
+standardized residual clears two and is borderline under the strictest), a
+falsifiable statement rather than a bare failure to reject. The whole is made reproducible by an hourly
 on-chain liquidation panel (2021--2025) and a one-command replication
 package.
 

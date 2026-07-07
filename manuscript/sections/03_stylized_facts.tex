@@ -7,7 +7,7 @@ is why the apparently confirming result of Section~\ref{sec:apparent}
 deserves the scrutiny it receives in Section~\ref{sec:deconstruction}.
 
 \paragraph{Fact 1.}
-ETH's distribution is downside-asymmetric and fat-tailed, but the asymmetry is market-wide.
+ETH's distribution is downside-asymmetric and fat-tailed, but the asymmetry is not specific to ETH.
 Hourly log returns have skewness \SkewEth{} and excess kurtosis \KurtEth{}
 (Table~\ref{tab:descriptives}); the worst hour ($\MinRet\%$) is 1.7 times
 deeper than the best ($+\MaxRet\%$); and far-extreme counts are
@@ -45,7 +45,7 @@ contemporaneous liquidations, against \PLiqBestOne\% of the best 1\% and
 The direction of this co-occurrence is mechanically determined. A price
 fall pushes positions below their collateral threshold and triggers
 liquidation, which is the protocol design \citep{qin2021,perez2021},
-whereas a rally liquidates nothing. This asymmetry therefore
+whereas a rally does not trigger the collateral liquidations we measure. This asymmetry therefore
 reflects the one-sidedness of the liquidation trigger, not downside
 amplification of prices by DeFi. Consistently, \citet{moallemi2024}
 document that over 70\% of liquidations occur in the absence of any
@@ -73,7 +73,7 @@ the market that would need to be moved.
 
 \medskip
 \noindent
-These three regularities, a real but market-wide asymmetry, mechanically
+These three regularities, a real but cross-asset asymmetry, mechanically
 reverse co-occurrence, and negligible scale, make it doubtful from the
 outset that observable DeFi liquidations drive ETH's downside tail. The
 remainder of the paper tests that doubt formally: the next section fixes

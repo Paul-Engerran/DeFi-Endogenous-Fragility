@@ -29,12 +29,16 @@ incremental to
 a nested quantile benchmark, not a replacement for a dedicated scale model;
 the volatility
 channel they drive confirms and extends the existing transaction-level
-evidence to the conditional tails; and, net of volatility, we can
-\emph{exclude} downside-specific amplification larger than roughly
-\MdeEightyExc{} per unit of the log-liquidation shock, at the one-percent tail. That is evidence of
-absence at the economically relevant scale, not a bare failure to reject. A
-faint one-percent whisper survives detection but falls below the smallest
-effect size of interest and does not carry the conclusion.
+evidence to the conditional tails; and, net of volatility, the one-percent-tail
+exceedance asymmetry (down minus up) is bounded below the smallest effect
+size of interest under all three calibrations of the shock span, including the
+strictest, so we can \emph{exclude} downside-specific amplification larger than
+roughly \MdeEightyExc{} per unit of the log-liquidation shock. That is evidence of
+absence at the economically relevant scale for the one-percent-tail
+exceedance-asymmetry object under the stated calibrations of the shock span,
+not a bare failure to reject. The small standardized residual at the one-percent tail is statistically
+detectable but economically negligible, clearing two of the three calibrations
+and borderline under the strictest, and it does not carry the conclusion.
 
 The takeaway is bounded on every side. At the observable on-chain scale and
 over this period, DeFi liquidations do not amplify ETH's downside tail
@@ -50,7 +54,7 @@ The null is size-contingent: if the DeFi share of crypto leverage grows
 materially, the channel could become aggregate-relevant, and the bound bears
 re-examination as that share moves.
 
-Three directions follow. We ran an unconditional-quantile (RIF) cross-check
+Four directions follow. We ran an unconditional-quantile (RIF) cross-check
 (Section~\ref{sec:deconstruction}); because RIF-OLS is here algebraically tied
 to the conditional model, a fully \emph{independent} unconditional
 estimator would test the artifact from a separate angle. An identification
@@ -59,7 +63,11 @@ isolating exogenous variation in liquidation timing, whether an adjustable-rate
 instrument or residualization at the quantile rather than the mean, would
 license the causal statements this paper declines. And centralized
 perpetual-futures data would let one test the spiral where it plausibly
-lives, outside our perimeter. The contribution we claim is correspondingly
+lives, outside our perimeter. And broadening the on-chain liquidation panel
+beyond the currently indexed lending protocols, to MakerDAO and DAI-vault
+liquidations and to liquid-restaking collateral (Appendix~\ref{app:data}),
+would close the two coverage gaps whose direction we can bound but not
+eliminate here. The contribution we claim is correspondingly
 sized: a reproducible on-chain liquidation panel, a portable methodological
 caution that symmetric volatility masquerades as fragility in naive quantile
 projections, a bounded null against a popular directional prediction, and a

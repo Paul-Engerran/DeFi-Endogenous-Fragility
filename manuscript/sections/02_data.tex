@@ -57,7 +57,10 @@ Liquidations are extracted from Dune Analytics (query \texttt{6912877},
 versioned in the replication package) over the open-source Spellbook tables
 \texttt{lending.borrow} and \texttt{lending.supply}, covering all EVM chains
 and lending protocols indexed at extraction time (Aave v1--v3, Compound
-v2--v3, Spark, and Morpho account for the bulk of volume). The primary
+v2--v3, Spark, and Morpho account for the bulk of volume). The query was
+executed once, and the deposited hourly panel, not a live re-query, is the
+reproducibility anchor; the source-to-panel path is therefore a snapshot and
+is not end-to-end re-executable. The primary
 measure is \emph{debt forcibly repaid}, in USD, aggregated by hour. This is
 the leg that measures the deleveraging flow itself, how much leverage was
 forcibly purged, rather than collateral seized, which mixes in the
@@ -140,7 +143,7 @@ Total qualifying liquidations amount to \$\LiqTotalBn{} billion over the
 sample. The flow is extremely sparse and right-skewed: \PLiqAll\% of
 estimation-panel hours contain any liquidation; the mean daily flow is
 \$\MeanDailyLiqM{} million against a median of \$\MedianDailyLiqK{}
-thousand; and the largest single day (\$\MaxDayM{} million, 2024-08-05, the
+thousand (both computed over all calendar days, not only active days); and the largest single day (\$\MaxDayM{} million, 2024-08-05, the
 yen carry-trade unwind) sits more than three orders of magnitude above the
 median day (Figure~\ref{fig:timeseries}). These features motivate the
 logarithmic shock transformation below. The external order of magnitude is

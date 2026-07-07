@@ -32,8 +32,12 @@ daily DeFi flow sits four to six orders of magnitude lower, and the
 whole-sample cumulative total amounts to roughly \SizeTotalVsCascade\% of
 that single cascade day. A flow this
 many orders of magnitude below the venue where a reflexive spiral
-plausibly lives (Section~\ref{sec:discussion}) cannot, at the observable
-scale, be a material aggregate contributor to ETH's crash quantile. In
+plausibly lives (Section~\ref{sec:discussion}) is unlikely, at the observable
+scale, to be a material aggregate contributor to ETH's crash quantile. This
+size argument is conditional on observed coverage: the MakerDAO and
+liquid-restaking collateral that Section~\ref{sec:data-limits} documents as
+outside the measure do not enter the numerator, and the omission is bounded
+there as favorable to the null. In
 aggregate-market terms the hourly shock the quantile projection sees is
 negligible, and that is what predicts the null.
 
@@ -56,7 +60,11 @@ plausible rescaling of the denominator. Source: \texttt{size\_ratio.csv}.}
 
 The inequality is wide, three to four orders of magnitude, wide enough to
 survive deflating the wash-inflated denominators entirely (the numerator
-is our own hard extraction; the caveat is detailed at the table). The flow
+is our own hard extraction; the caveat is detailed at the table). Because the
+numerator is debt forcibly repaid rather than collateral seized and sold, it
+excludes the liquidator's discount and so understates the volume that
+actually reaches the market, which makes the ratio a conservative bound on
+aggregate materiality. The flow
 is also concentrated in a single episode (August 2024). This is why the
 median, not the mean, carries the argument, and why we compare the
 typical flow to a cascade rather than the outlier day to a cascade.

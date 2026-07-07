@@ -79,7 +79,7 @@ short-horizon cells that beat the nested benchmark do \emph{not} beat GARCH
 (one, $\tau = 0.95$ at one hour, significantly underperforms it), and the only
 cells that beat GARCH are sparse long-horizon ones. That boundary is the point
 rather than a concession. The liquidation signal is observable, predetermined, and
-exogenous to any price model, so the information it carries is orthogonal and
+external to the price-only forecasting model, so the information it carries is orthogonal and
 incremental to the market-state controls a risk desk already tracks: a free
 input to add to an existing tail-risk model, not a replacement for one.
 Because pinball loss is the objective a quantile VaR forecaster minimizes,
@@ -111,7 +111,12 @@ $p<0.01$). Source: \texttt{oos\_predictive.csv}.}
 
 Net of volatility, downside-specific
 amplification is not economically significant, and what is excluded is
-quantified in three steps.
+quantified in three steps. This down-minus-up asymmetry, standardized by
+predetermined volatility so the common scale cancels, is the object that
+carries the paper's powered falsification of the leverage-cycle prior: where
+the Section~\ref{sec:apparent-crack} interaction is null but too imprecise to
+bound, standardizing here sharpens the test into a decisive equivalence
+verdict.
 
 \paragraph{(i) Raw symmetry.}
 The paired asymmetry $\Delta_h = \beta^{\text{down}}_h -
@@ -142,13 +147,13 @@ the detectable residual is large enough to matter.
 It is not. Converting the bootstrap intervals into minimum detectable
 effects and equivalence tests \citep{lakens2017,riesthuis2024} against the
 pre-specified smallest effect size of interest
-(Section~\ref{sec:method-battery}), the exceedance asymmetry at the 1\%
-level is equivalent to negligible under all three calibrations of
-the shock span, including the strictest (MDE at 80\% power
-\MdeEightyExc{}, below the strictest SESOI of \SesoiStrict); the residual
-itself is equivalent-to-negligible under two calibrations and borderline
-under the strictest (Table~\ref{tab:nullbound}, Panel C, and
-Figure~\ref{fig:mde}).\footnote{Read as a continuous function of the
+(Section~\ref{sec:method-battery}), the exceedance asymmetry (down minus up) at the 1\%
+level is bounded below the smallest effect size of interest under all three
+calibrations of the shock span, including the strictest (MDE at 80\% power
+\MdeEightyExc{}, below the strictest SESOI of \SesoiStrict); the
+standardized residual is statistically detectable but economically
+negligible, clearing two of the three calibrations and borderline under the
+strictest (Table~\ref{tab:nullbound}, Panel C, and Figure~\ref{fig:mde}).\footnote{Read as a continuous function of the
 smallest effect size rather than at the three pre-registered calibrations
 alone, the verdict does not turn on the choice of span: the exceedance
 $\Delta$ is equivalent-to-negligible for every SESOI above \SesoiEquivExc{},

@@ -8,18 +8,23 @@ For each quantile $\tau$ and horizon $h$ we estimate, by local projection
 liquidation shock:
 \begin{equation}
 \label{eq:qlp}
-\QR_{\tau}\!\left(r_{t \to t+h} \mid \mathcal{F}_t\right)
+\QR_{\tau}\!\left(r_{t+1 \to t+1+h} \mid \mathcal{F}_t\right)
  = \beta_h(\tau)\, L_{t-1}
  + \delta_h(\tau)\, \left(L_{t-1} \times \texttt{oi\_high}_t\right)
  + \gamma_h(\tau)' X_t ,
 \end{equation}
-where $r_{t \to t+h}$ is the cumulative ETH return from $t$ to $t+h$,
+where $r_{t+1 \to t+1+h}$ is the cumulative ETH return over the $h+1$ hours from $t+1$ to $t+1+h$ (so $h=0$ is the one-hour-ahead return),
 $L_{t-1}$ the lagged log-liquidation shock, and $X_t$ the controls of
 Section~\ref{sec:method-controls}. The object of interest is
 $\beta_h(\tau)$ across $\tau \in \{0.01, 0.05, 0.10, 0.50, 0.90, 0.95\}$
 and $h \in \{0, \dots, 24\}$ hours (a nine-quantile grid is reported in the
 appendix). Estimation is by quantile regression \citep{koenker1978}; the
-estimator and its bootstrap inference follow \citet{han2024}.
+estimator and its bootstrap inference follow \citet{han2024}. The reported
+grid stops at $\tau = 0.95$; the tail-inference and mirror set additionally
+estimates $\tau = 0.99$, so that the one-percent upper tail has a symmetric
+counterpart to the one-percent lower tail. Both grids are fixed in the locked
+configuration file, so $0.99$ is estimated but not carried into the reported
+panels.
 
 The quantile approach is necessary rather than cosmetic, for two reasons.
 First, the hypothesis under test, leverage-cycle amplification
@@ -176,7 +181,10 @@ finer statistical resolution of a forty-thousand-hour sample.
 
 Bonferroni corrections guard the grid searches: a $\times 12$ family over
 the reported $\tau \times h$ cells and a $\times 6$ family over the
-quantile grid. The direct shock effect survives both families in full
+quantile grid. The correction family is the set of reported cells itself, the
+$\tau \times h$ grid and the quantile grid enumerated in the locked
+configuration file before the diagnostic phase, so the family is fixed by the
+specification rather than chosen after seeing the diagnostics. The direct shock effect survives both families in full
 (12/12 and 6/6); the leverage interaction $\delta_h(\tau)$ fails all six
 (0/6). We carry that null forward as it stands, since the interaction was the
 specification's embodiment of the leverage-cycle prediction. We read it as a
