@@ -21,6 +21,10 @@ type: software
 version: "2.0.0"
 date-released: "2026-07-04"
 license: MIT
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21230382"
+    description: "Concept DOI (all versions) of the archived replication package on Zenodo."
 keywords:
   - quantile regression
   - local projections
