@@ -16,14 +16,15 @@ abstract: >-
 authors:
   - family-names: Engerran
     given-names: Paul
+    orcid: "https://orcid.org/0009-0002-8371-5337"
     email: paul.engerran@gmail.com
 type: software
 version: "2.0.0"
-date-released: "2026-07-04"
+date-released: "2026-07-07"
 license: MIT
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.21230382"
+    value: "10.5281/zenodo.21230381"
     description: "Concept DOI (all versions) of the archived replication package on Zenodo."
 keywords:
   - quantile regression
@@ -41,5 +42,6 @@ preferred-citation:
   authors:
     - family-names: Engerran
       given-names: Paul
+      orcid: "https://orcid.org/0009-0002-8371-5337"
   year: 2026
   notes: "Working paper. Replication package: defi-endogenous-fragility."

@@ -437,7 +437,9 @@ unnumbered section before the references.
 ## License and contact
 
 Code, documentation, generated figures, and processed data artefacts are
-released under the MIT License ([`LICENSE`](LICENSE)). Raw data remain governed
+released under the MIT License ([`LICENSE`](LICENSE)). The manuscript text and
+the paper's exhibits, as presented in the paper, are licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Raw data remain governed
 by their providers' terms (§2). For questions or reproduction issues, please
 open an issue on the
 [GitHub repository](https://github.com/Paul-Engerran/DeFi-Endogenous-Fragility).
